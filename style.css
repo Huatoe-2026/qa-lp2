@@ -1,0 +1,437 @@
+  :root{
+    --bg:#ffffff;--bg-soft:#f5f5f7;--ink:#1d1d1f;--ink-soft:#6e6e73;
+    --line:#e3e3e6;--accent:#0066cc;--accent-soft:#e8f1fc;--radius:18px;--maxw:1080px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Anuphan',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:-0.01em;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  a{color:inherit;}
+
+  /* ===== scroll reveal (Apple-style) ===== */
+  .reveal-on .reveal{opacity:0;transform:translateY(32px) scale(.985);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform;}
+  .reveal-on .reveal.in{opacity:1;transform:none;}
+  .reveal-on .stagger>.reveal:nth-child(1){transition-delay:0s}
+  .reveal-on .stagger>.reveal:nth-child(2){transition-delay:.08s}
+  .reveal-on .stagger>.reveal:nth-child(3){transition-delay:.16s}
+  .reveal-on .stagger>.reveal:nth-child(4){transition-delay:.24s}
+  .reveal-on .stagger>.reveal:nth-child(5){transition-delay:.32s}
+  .reveal-on .stagger>.reveal:nth-child(6){transition-delay:.40s}
+  @media(prefers-reduced-motion:reduce){.reveal-on .reveal{opacity:1;transform:none;transition:none;}}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px;letter-spacing:-0.02em;cursor:pointer;}
+  .brand .dot{height:42px;width:auto;object-fit:contain;display:block;position:relative;top:4px;}
+  .menu{display:flex;gap:24px;list-style:none;}
+  .menu a{color:var(--ink-soft);text-decoration:none;font-size:14px;font-weight:400;transition:color .2s;cursor:pointer;}
+  .menu a:hover,.menu a.on{color:var(--ink);}
+  @media(max-width:820px){.menu{display:none;}}
+
+  /* hero */
+  .hero{text-align:center;padding:90px 0 30px;}
+  .hero-logo{height:248px;width:auto;object-fit:contain;margin:0 auto 24px;display:block;}
+  .eyebrow{color:var(--accent);font-weight:600;font-size:15px;margin-bottom:18px;}
+  .hero h1{font-size:clamp(32px,5.6vw,58px);font-weight:700;line-height:1.28;letter-spacing:-0.03em;max-width:22ch;margin:0 auto 22px;}
+  .hero p{font-size:clamp(17px,2.4vw,21px);color:var(--ink-soft);max-width:48ch;margin:0 auto 32px;font-weight:300;line-height:1.5;}
+  .cta{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-size:16px;font-weight:500;padding:13px 26px;border-radius:980px;text-decoration:none;transition:all .2s;letter-spacing:-0.01em;}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:#0a5ad6;transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--accent);}
+  .btn-ghost:hover{background:var(--accent-soft);}
+  .demo-tag{display:inline-block;margin-top:18px;font-size:12.5px;color:var(--ink-soft);background:var(--bg-soft);padding:6px 14px;border-radius:980px;}
+
+  /* purpose strip */
+  .purpose{padding:30px 0 70px;}
+  .purpose-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:920px;margin:0 auto;}
+  @media(max-width:760px){.purpose-grid{grid-template-columns:1fr;}}
+  .pcard{text-align:center;padding:8px 16px;}
+  .pcard .pi{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+  .pcard h4{font-size:16.5px;font-weight:600;margin-bottom:6px;letter-spacing:-0.01em;}
+  .pcard p{font-size:14px;color:var(--ink-soft);font-weight:300;line-height:1.45;}
+
+  /* sections / views */
+  .view{display:none;}
+  .view.active{display:block;}
+  section{padding:74px 0;}
+  .soft{background:var(--bg-soft);}
+  .sec-head{text-align:center;margin-bottom:48px;}
+  .sec-head h2{font-size:clamp(26px,4vw,40px);font-weight:600;letter-spacing:-0.025em;margin-bottom:14px;}
+  .sec-head p{color:var(--ink-soft);font-size:17px;font-weight:300;max-width:52ch;margin:0 auto;}
+
+  /* page hero (subpages) */
+  .phero{padding:64px 0 8px;}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:14px;font-weight:500;cursor:pointer;margin-bottom:22px;}
+  .phero .eyebrow{margin-bottom:12px;}
+  .phero h2{font-size:clamp(28px,4.4vw,44px);font-weight:700;letter-spacing:-0.03em;margin-bottom:12px;}
+  .phero p{color:var(--ink-soft);font-size:17px;font-weight:300;max-width:56ch;}
+
+  /* metrics */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  @media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr);}}
+  .metric{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;text-align:center;}
+  .soft .metric{background:#fff;}
+  .metric .num{font-size:42px;font-weight:700;letter-spacing:-0.03em;line-height:1;}
+  .metric .num span{font-size:22px;color:var(--accent);}
+  .metric .lab{margin-top:11px;color:var(--ink-soft);font-size:14px;font-weight:400;}
+
+  /* dashboard */
+  .dash{display:grid;grid-template-columns:1.15fr 1fr;gap:26px;align-items:stretch;}
+  @media(max-width:860px){.dash{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;}
+  .card h3{font-size:19px;font-weight:600;letter-spacing:-0.02em;margin-bottom:6px;}
+  .card .sub{color:var(--ink-soft);font-size:14px;font-weight:300;margin-bottom:22px;}
+  .chart-box{position:relative;height:280px;}
+  .legend-row{display:flex;flex-direction:column;gap:14px;margin-top:8px;}
+  .lg{display:flex;align-items:center;justify-content:space-between;font-size:15px;}
+  .lg .l{display:flex;align-items:center;gap:11px;}
+  .lg .sw{width:11px;height:11px;border-radius:3px;}
+  .lg .v{font-weight:600;}
+
+  /* feature grid */
+  .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:860px){.feat{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.feat{grid-template-columns:1fr;}}
+  .doc,.fcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s,opacity .8s cubic-bezier(.22,.61,.36,1);display:flex;flex-direction:column;gap:13px;}
+  .doc:hover,.fcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.07);border-color:transparent;}
+  .ic{width:46px;height:46px;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;}
+  .doc h4,.fcard h4{font-size:17px;font-weight:600;letter-spacing:-0.01em;}
+  .doc .meta,.fcard p{color:var(--ink-soft);font-size:13.8px;font-weight:300;line-height:1.45;}
+  .go{margin-top:auto;color:var(--accent);font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;}
+
+  /* table */
+  .tbl-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .tbl-top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap;}
+  .tbl-top strong{font-weight:600;font-size:16px;}
+  .find{display:flex;align-items:center;gap:9px;background:var(--bg-soft);border-radius:980px;padding:8px 16px;color:var(--ink-soft);font-size:14px;min-width:220px;}
+  .find input{border:none;background:transparent;outline:none;font-family:inherit;font-size:14px;color:var(--ink);width:100%;}
+  .find input::placeholder{color:var(--ink-soft);}
+  .tbl-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:560px;}
+  th,td{text-align:left;padding:15px 24px;font-size:14.5px;white-space:nowrap;}
+  th{color:var(--ink-soft);font-weight:500;font-size:13px;border-bottom:1px solid var(--line);}
+  tbody tr{border-bottom:1px solid var(--line);transition:background .15s;}
+  tbody tr:last-child{border-bottom:none;}
+  tbody tr:hover{background:var(--bg-soft);}
+  td.name{font-weight:500;}
+  td.numr{text-align:right;font-variant-numeric:tabular-nums;}
+  .pill{display:inline-block;padding:4px 13px;border-radius:980px;font-size:13px;font-weight:500;}
+  .p-exc{background:#e7f6ee;color:#11724a;}
+  .p-vg{background:#e8f1fc;color:#0a4f9e;}
+  .p-good{background:#fff4e0;color:#9a6500;}
+  .p-fair{background:#fdeede;color:#a85a17;}
+  .p-imp{background:#f0f0f2;color:#6e6e73;}
+  .p-na{background:var(--bg-soft);color:var(--ink-soft);}
+  .q-exc{background:#e7f6ee;color:#11724a;}
+  .q-de{background:#e8f1fc;color:#0a4f9e;}
+  .q-d{background:#eaf3ff;color:#1366b8;}
+  .q-mid{background:#fff4e0;color:#9a6500;}
+  .q-dev{background:#f0f0f2;color:#6e6e73;}
+  /* แท็บย่อยหน้าผลผู้เรียน */
+  .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;}
+  .subtab{font-family:inherit;font-size:14px;font-weight:500;color:var(--ink-soft);background:var(--bg-soft);border:1px solid var(--line);border-radius:980px;padding:9px 18px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;}
+  .subtab:hover{color:var(--ink);}
+  .subtab.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .subtab .soon{font-size:11px;opacity:.7;}
+  /* ตัวกรองหน้าผลผู้เรียน */
+  .filters{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:30px;}
+  /* แถบสีระดับผลการเรียน (legend) */
+  .lvl-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--ink-soft);}
+  .lvl-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .lvl-legend i{width:12px;height:12px;border-radius:4px;display:inline-block;}
+  /* ช่อง % ในตารางผลสัมฤทธิ์ */
+  .pcell{font-weight:600;}
+  .pcell.hi{color:#11724a;} .pcell.mid{color:#1366b8;} .pcell.lo{color:#b4544f;}
+  .ach-note{font-size:12.5px;color:var(--ink-soft);margin-top:6px;}
+  .stat-ok{color:#11724a;font-weight:500;}
+  .stat-wait{color:#9a6500;font-weight:500;}
+  .stat-na{color:var(--ink-soft);}
+  .btn-dl{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);color:var(--accent);border:none;font-family:inherit;font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:980px;cursor:pointer;transition:background .2s;}
+  .btn-dl:hover{background:#d7e8fb;}
+  .yr-pick{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-soft);}
+  .yr-select{font-family:inherit;font-size:14px;color:var(--ink);background:var(--bg-soft);border:1px solid var(--line);border-radius:980px;padding:8px 16px;cursor:pointer;outline:none;}
+
+  /* feedback form */
+  .form-card{max-width:640px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:38px;}
+  .field{margin-bottom:20px;}
+  .field label{display:block;font-size:14px;font-weight:500;margin-bottom:8px;}
+  .field input,.field select,.field textarea{width:100%;font-family:inherit;font-size:15px;color:var(--ink);background:var(--bg-soft);border:1px solid transparent;border-radius:12px;padding:13px 16px;transition:border-color .2s,background .2s;}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:#fff;}
+  .field textarea{min-height:120px;resize:vertical;}
+  .ok-msg{display:none;text-align:center;background:#e7f6ee;color:#11724a;padding:16px;border-radius:12px;font-weight:500;margin-bottom:20px;}
+
+  footer{background:var(--bg-soft);border-top:1px solid var(--line);padding:44px 0;}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;color:var(--ink-soft);font-size:13.5px;}
+  .foot strong{color:var(--ink);font-weight:600;display:block;margin-bottom:4px;font-size:15px;}
+
+  .hero .hero-logo{animation:fu .7s 0s both;}
+  .hero .eyebrow{animation:fu .7s .05s both;}
+  .hero h1{animation:fu .7s .15s both;}
+  .hero p{animation:fu .7s .28s both;}
+  .hero .cta{animation:fu .7s .4s both;}
+  .hero .demo-tag{animation:fu .7s .5s both;}
+
+  /* personnel: icon metrics */
+  .metric .m-ic{width:52px;height:52px;margin:0 auto 14px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:#fff;}
+  .m-ic svg{width:26px;height:26px;}
+  .ic-admin{background:linear-gradient(135deg,#0066cc,#3d9bff);}
+  .ic-teacher{background:linear-gradient(135deg,#11724a,#3bbf86);}
+  .ic-student{background:linear-gradient(135deg,#9a5cc6,#c08ae0);}
+  .ic-other{background:linear-gradient(135deg,#e0902a,#f2b85c);}
+  /* personnel: ranking cards */
+  .rank-head{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;margin-bottom:16px;}
+  .rank-head .tag{font-size:12px;font-weight:500;padding:4px 12px;border-radius:980px;}
+  .rank-top .tag{background:#e7f1ff;color:#0a4f9e;}
+  .rank-bottom .tag{background:#fff1e6;color:#a85a17;}
+  .rank-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .rank-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 18px;position:relative;overflow:hidden;}
+  .rank-card .badge{position:absolute;top:0;right:0;width:46px;height:46px;display:flex;align-items:flex-end;justify-content:flex-start;padding:6px 0 0 8px;font-size:15px;font-weight:700;color:#fff;border-radius:0 var(--radius) 0 60px;}
+  .rank-card.t .badge{background:linear-gradient(135deg,#0066cc,#3d9bff);}
+  .rank-card.b .badge{background:linear-gradient(135deg,#e0902a,#f2b85c);}
+  .rank-card .rname{font-size:16px;font-weight:600;line-height:1.35;padding-right:34px;}
+  .rank-card .rsub{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .rank-card .rstu{font-size:34px;font-weight:700;letter-spacing:-0.03em;margin:14px 0 2px;}
+  .rank-card .rstu span{font-size:15px;color:var(--ink-soft);font-weight:400;margin-left:4px;}
+  .rank-staff{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);}
+  .rank-staff div{display:flex;justify-content:space-between;font-size:13.5px;}
+  .rank-staff .k{color:var(--ink-soft);}
+  .rank-staff .v{font-weight:600;}
+  @media(max-width:760px){ .rank-grid{grid-template-columns:1fr;} }
+  @keyframes fu{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+
+  /* ============ งานที่ต้องส่งเขต (deadline board) ============ */
+  .brand{white-space:nowrap;flex:none;}
+  .nav-in{gap:20px;}
+  .menu{gap:13px;}
+  .menu a{white-space:nowrap;font-size:13.5px;}
+  @media(max-width:1040px){.menu{gap:11px;}.menu a{font-size:13px;}}
+
+  /* แถบเตือนใต้เมนู */
+  .alertbar{display:none;background:#fdecec;border-bottom:1px solid #f5d5d5;color:#a33b37;font-size:13.5px;}
+  .alertbar.on{display:block;}
+  .alertbar .wrap{display:flex;align-items:center;gap:10px;padding-top:10px;padding-bottom:10px;}
+  .alertbar b{font-weight:600;}
+  .alertbar .lk{color:#a33b37;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+  .alertbar .x{margin-left:auto;background:none;border:none;color:inherit;font-family:inherit;font-size:17px;line-height:1;opacity:.5;cursor:pointer;padding:2px 4px;}
+  .alertbar .x:hover{opacity:1;}
+
+  /* หัวส่วน + สรุปตัวเลข */
+  .tasks-sec{padding-top:14px;padding-bottom:88px;}
+  @media(max-width:640px){.tasks-sec{padding-bottom:64px;}}
+  .task-updated{margin-top:12px;font-size:12.5px;color:var(--ink-soft);}
+  .task-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:640px;margin:0 auto 28px;}
+  .tsum{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 14px;text-align:center;}
+  .tsum .n{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1;}
+  .tsum .l{margin-top:8px;font-size:13px;color:var(--ink-soft);}
+  .tsum.over .n{color:#d35450;}
+  .tsum.soon .n{color:#c08b14;}
+
+  /* แถบตัวกรอง */
+  .task-bar{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:26px;}
+  .task-check{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-soft);cursor:pointer;user-select:none;}
+  .task-check input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer;}
+
+  /* ตารางการ์ด 3x3 */
+  .task-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch;}
+  @media(max-width:900px){.task-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:620px){.task-grid{grid-template-columns:1fr;}.task-sum{gap:10px;}.tsum .n{font-size:28px;}}
+
+  .tcard{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s,border-color .22s,opacity .8s cubic-bezier(.22,.61,.36,1);}
+  .tcard:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.07);}
+  .tcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,#c7c7cc);}
+  .tcard-in{padding:20px 20px 18px 26px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .trow1{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .tgroup{font-size:12px;font-weight:500;color:var(--ink-soft);background:var(--bg-soft);border-radius:980px;padding:3px 11px;}
+  .turgent{font-size:11.5px;font-weight:600;color:#b4433e;background:#fdecec;border-radius:980px;padding:3px 9px;}
+  .tcheck{margin-left:auto;width:23px;height:23px;flex:none;border-radius:7px;border:1.5px solid var(--line);background:#fff;cursor:pointer;color:transparent;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+  .tcheck:hover{border-color:var(--accent);}
+  .tcheck.on{background:#11724a;border-color:#11724a;color:#fff;}
+  .tcount{font-size:13px;font-weight:600;color:var(--tc,#6e6e73);}
+  .ttitle{font-size:16.5px;font-weight:600;letter-spacing:-.01em;line-height:1.36;}
+  .tdue{font-size:13px;color:var(--ink-soft);font-weight:300;line-height:1.45;}
+  .tacts{margin-top:auto;padding-top:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .tmore{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-family:inherit;font-size:13.5px;padding:7px 11px;border-radius:980px;transition:background .2s;}
+  .tmore:hover{background:var(--bg-soft);color:var(--ink);}
+  .tdetail{display:none;border-top:1px solid var(--line);margin-top:12px;padding-top:13px;font-size:13.5px;color:var(--ink-soft);font-weight:300;line-height:1.55;}
+  .tdetail.open{display:block;}
+  .tdetail dl{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin-top:10px;}
+  .tdetail dt{color:var(--ink);font-weight:500;font-size:13px;white-space:nowrap;}
+  .tdetail dd{font-size:13px;}
+  .tmini{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;}
+  .tmini button{background:var(--bg-soft);border:none;color:var(--ink-soft);font-family:inherit;font-size:12.5px;padding:6px 12px;border-radius:980px;cursor:pointer;transition:all .2s;}
+  .tmini button:hover{background:#eaeaee;color:var(--ink);}
+  .tcard.done{opacity:.45;}
+  .tcard.done .ttitle{text-decoration:line-through;}
+  .tcard.hl{box-shadow:0 0 0 3px var(--accent-soft),0 12px 30px rgba(0,0,0,.07);border-color:var(--accent);}
+  .task-empty{grid-column:1/-1;text-align:center;padding:46px 20px;color:var(--ink-soft);font-weight:300;}
+  .task-more{text-align:center;margin-top:32px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+
+  /* แถบเชิญชวนเจ้าหน้าที่เขตเข้าโพสต์งาน */
+  .staff-band{display:flex;align-items:center;justify-content:space-between;gap:24px;
+    background:var(--accent-soft);border:1px solid #d2e4f8;border-radius:var(--radius);
+    padding:26px 32px;margin-top:36px;}
+  .staff-band .sb-txt h4{font-size:17px;font-weight:600;letter-spacing:-0.02em;margin-bottom:4px;}
+  .staff-band .sb-txt p{font-size:14px;color:var(--ink-soft);font-weight:300;}
+  .staff-band .btn{flex:none;font-size:15px;padding:11px 24px;}
+  @media(max-width:640px){
+    .staff-band{flex-direction:column;align-items:flex-start;gap:16px;padding:24px;}
+    .staff-band .btn{width:100%;justify-content:center;}
+  }
+
+  /* หน้าปฏิทินส่งงาน — มุมมองตาราง */
+  .dl-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:24px;}
+  .dl-filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:28px;}
+  td.tdname{white-space:normal;min-width:230px;font-weight:500;}
+  .due-over{color:#c0433e;font-weight:600;}
+  .due-soon{color:#9a6500;font-weight:600;}
+  .due-near{color:var(--accent);font-weight:500;}
+  .due-far{color:var(--ink-soft);}
+
+  /* หน้าสำหรับเจ้าหน้าที่เขต — เน้นมินิมอล */
+  .staff-card{max-width:400px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 32px;}
+  .staff-card h3{font-size:19px;font-weight:600;margin-bottom:8px;letter-spacing:-.02em;}
+  .staff-card .hint{font-size:13.5px;color:var(--ink-soft);font-weight:300;margin-bottom:22px;line-height:1.5;}
+  .staff-panel{max-width:820px;margin:0 auto;}
+  .staff-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+  .staff-who{font-size:16px;font-weight:600;}
+  .staff-who span{display:block;font-size:13px;color:var(--ink-soft);font-weight:400;margin-top:2px;}
+  .staff-top .sp{margin-left:auto;display:flex;gap:8px;}
+  .lnk{background:none;border:none;font-family:inherit;font-size:13.5px;color:var(--ink-soft);cursor:pointer;padding:7px 12px;border-radius:980px;}
+  .lnk:hover{background:var(--bg-soft);color:var(--ink);}
+  .srow{display:flex;align-items:flex-start;gap:14px;padding:16px 2px;border-bottom:1px solid var(--line);}
+  .srow:last-child{border-bottom:none;}
+  .srow .si{flex:1;min-width:0;}
+  .srow .st{font-size:15.5px;font-weight:500;letter-spacing:-.01em;}
+  .srow .ss{font-size:13px;color:var(--ink-soft);margin-top:3px;font-weight:300;}
+  .srow .sa{display:flex;gap:4px;flex-wrap:wrap;flex:none;}
+  .sbadge{display:inline-block;font-size:11.5px;font-weight:500;padding:2px 9px;border-radius:980px;background:var(--bg-soft);color:var(--ink-soft);margin-left:7px;}
+  .sbadge.pub{background:#e7f6ee;color:#11724a;}
+  .sbadge.hid{background:#f0f0f2;color:#6e6e73;}
+  .sbadge.cls{background:#e8f1fc;color:#0a4f9e;}
+  .admin-warn{display:none;background:#fdecec;border:1px solid #f5d5d5;color:#a33b37;border-radius:14px;padding:14px 18px;font-size:13.5px;margin-bottom:22px;}
+  .admin-warn.on{display:block;}
+  .staff-msg{display:none;text-align:center;background:#e7f6ee;color:#11724a;padding:14px;border-radius:12px;font-weight:500;margin-bottom:20px;font-size:14px;}
+  .staff-msg.on{display:block;}
+  .staff-msg.err{background:#fdecec;color:#a33b37;}
+  /* ===== ปฏิทินกิจกรรมเขต ===== */
+  .cal-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:22px;}
+  .cal-arrow{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);
+    font-size:20px;line-height:1;color:var(--ink-soft);cursor:pointer;transition:all .2s;}
+  .cal-arrow:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-soft);}
+  .cal-month{font-size:21px;font-weight:600;letter-spacing:-0.02em;min-width:190px;text-align:center;}
+  .ev-legend{display:flex;flex-wrap:wrap;gap:7px 18px;justify-content:center;margin-bottom:26px;
+    font-size:12.5px;color:var(--ink-soft);}
+  .ev-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+
+  /* ===== สลับมุมมอง [ตารางเดือน | รายการ] ===== */
+  .viewmode-toggle{display:inline-flex;background:var(--bg-soft);border-radius:980px;padding:3px;gap:2px;}
+  .vm-btn{background:none;border:none;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink-soft);
+    padding:6px 16px;border-radius:980px;cursor:pointer;transition:all .2s;}
+  .vm-btn.on{background:var(--bg);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  @media(max-width:767px){ .viewmode-toggle{display:none;} }
+
+  /* ===== ตารางเดือน (month grid) ===== */
+  .cal-grid-head{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;
+    font-size:12.5px;font-weight:600;color:var(--ink-soft);padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .cal-week{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:min-content;
+    border-bottom:1px solid var(--line);}
+  .cal-daynum{grid-row:1;min-height:26px;padding:7px 8px 3px;font-size:12.5px;color:var(--ink-soft);
+    text-align:right;cursor:pointer;position:relative;border-right:1px solid var(--line);transition:background .15s;}
+  .cal-daynum:last-child{border-right:none;}
+  .cal-daynum:hover{background:var(--bg-soft);}
+  .cal-daynum.today{color:var(--accent);font-weight:700;}
+  .cal-daynum.sel{background:var(--accent-soft);}
+  .cal-due-dot{position:absolute;top:8px;left:8px;width:6px;height:6px;border-radius:50%;background:#d35450;}
+  .cal-bar{margin:1px 2px;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:500;color:#fff;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.6;}
+  .cal-bar.off{opacity:.5;text-decoration:line-through;}
+  .cal-bar.post{border:1px dashed rgba(255,255,255,.85);}
+  .cal-more{margin:1px 2px;font-size:10.5px;color:var(--ink-soft);cursor:pointer;padding:1px 7px;}
+  .cal-more:hover{color:var(--accent);}
+  .cal-daylist{margin-top:26px;}
+  .cal-daylist-head{font-size:13px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em;
+    margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--line);}
+  @media(max-width:560px){
+    .cal-daynum{font-size:11px;padding:5px 4px 2px;}
+    .cal-bar{font-size:9.5px;padding:1px 4px;}
+  }
+
+  .ev-row{display:flex;gap:18px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);
+    border-left:4px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:12px;transition:box-shadow .2s;}
+  .ev-row:hover{box-shadow:0 8px 22px rgba(0,0,0,.055);}
+  .ev-date{flex:none;width:62px;text-align:center;line-height:1.15;padding-top:2px;}
+  .ev-date .d{font-size:24px;font-weight:600;letter-spacing:-0.03em;}
+  .ev-date .m{font-size:12px;color:var(--ink-soft);}
+  .ev-date .span{font-size:11px;color:var(--ink-soft);margin-top:3px;}
+  .ev-main{flex:1;min-width:0;}
+  .ev-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:3px;}
+  .ev-chip{font-size:11.5px;font-weight:500;padding:2px 10px;border-radius:980px;color:#fff;white-space:nowrap;}
+  .ev-title{font-size:16.5px;font-weight:600;letter-spacing:-0.02em;}
+  .ev-meta{font-size:13.5px;color:var(--ink-soft);font-weight:300;margin-top:5px;line-height:1.75;}
+  .ev-meta b{font-weight:500;color:var(--ink);}
+  .ev-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .ev-note{margin-top:9px;font-size:13px;padding:8px 12px;border-radius:9px;background:#fff8e6;color:#8a6400;}
+  .ev-row.off{opacity:.55;}
+  .ev-row.off .ev-title{text-decoration:line-through;}
+  .ev-row.cancel .ev-note{background:#fdecec;color:#a33b37;}
+  .ev-badge{font-size:11.5px;font-weight:500;padding:2px 9px;border-radius:980px;}
+  .ev-badge.post{background:#fff3d6;color:#8a6400;}
+  .ev-badge.cancel{background:#fdecec;color:#a33b37;}
+  .ev-badge.past{background:var(--bg-soft);color:var(--ink-soft);}
+
+  /* แถวกำหนดส่งงานที่แทรกอยู่ในปฏิทินกิจกรรม */
+  .ev-row.duerow{border-left-color:#d35450;padding:12px 20px;background:#fdfbfb;cursor:pointer;}
+  .ev-row.duerow .ev-title{font-size:15px;font-weight:500;}
+  .ev-row.duerow .ev-date .d{font-size:20px;color:#d35450;}
+
+  .ev-mhead{font-size:13px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em;
+    margin:30px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line);}
+  .ev-mhead:first-child{margin-top:0;}
+  @media(max-width:560px){
+    .ev-row{gap:13px;padding:14px 15px;}
+    .ev-date{width:48px;}
+    .ev-date .d{font-size:20px;}
+  }
+
+  .home-last{padding-bottom:120px;}
+  @media(max-width:640px){.home-last{padding-bottom:88px;}}
+  .foot-staff{margin-top:10px;}
+  .foot-staff button{background:none;border:none;font-family:inherit;font-size:12.5px;color:var(--ink-soft);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;opacity:.75;}
+  .foot-staff button:hover{opacity:1;color:var(--ink);}
+  .f2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+  @media(max-width:560px){.f2{grid-template-columns:1fr;}}
+
+  /* ===== กล่องบอกวิธีสมัครรับปฏิทิน (ICS subscribe) ===== */
+  .modal-bg{display:none;position:fixed;inset:0;z-index:100;background:rgba(29,29,31,0.44);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px;align-items:center;justify-content:center;}
+  .modal-bg.on{display:flex;}
+  .modal-box{position:relative;background:var(--bg);border-radius:var(--radius);max-width:440px;width:100%;padding:32px;max-height:88vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,0.22);}
+  .modal-box h3{font-size:19px;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em;}
+  .modal-box p{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
+  .modal-x{position:absolute;top:16px;right:16px;background:var(--bg-soft);border:none;width:30px;height:30px;border-radius:50%;font-size:17px;line-height:1;color:var(--ink-soft);cursor:pointer;}
+  .modal-x:hover{color:var(--ink);}
+  .modal-url{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:14px;word-break:break-all;color:var(--ink);}
+  .modal-steps{font-size:13.5px;color:var(--ink-soft);line-height:1.6;border-top:1px solid var(--line);padding-top:16px;}
+  .modal-steps strong{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-bottom:8px;}
+  .modal-steps ol{padding-left:20px;margin-bottom:12px;}
+  .modal-steps li{margin-bottom:4px;}
+  .modal-steps a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
+  .modal-warn{background:#fff8e8;border:1px solid #f2e2b8;border-radius:10px;padding:10px 12px;color:#8a6a12;font-size:13px;}
+
+  /* ===== พิมพ์ A4 (หน้าปฏิทินเขตพื้นที่) — เหลือแค่หัวเดือน + รายการกิจกรรม ===== */
+  @media print{
+    body{background:#fff;}
+    *{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+    nav, footer, .alertbar, .modal-bg,
+    #view-calendar .phero, #view-calendar .dl-tabs, #view-calendar .demo-tag,
+    #view-calendar .dl-filters, #view-calendar .ev-legend,
+    #view-calendar .cal-arrow, #view-calendar .cal-nav .lnk,
+    #view-calendar .ev-acts, #view-calendar .task-more,
+    #calpane-tasks{ display:none !important; }
+    .wrap{max-width:none;padding:0;}
+    #view-calendar .cal-nav{justify-content:flex-start;gap:10px;margin-bottom:16px;}
+    #view-calendar .cal-month{font-size:20px;}
+    #view-calendar .ev-row{break-inside:avoid;border:1px solid var(--line);margin-bottom:8px;}
+    #view-calendar .cal-week{break-inside:avoid;}
+  }

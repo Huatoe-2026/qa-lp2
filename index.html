@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบสารสนเทศการประกันคุณภาพการศึกษา สพป.ลำพูน เขต 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.className += ' reveal-on';</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand" onclick="show('home',null)"><img class="dot" src="logo-lp2.png" alt="โลโก้ สพป.ลำพูน เขต 2"> ประกันคุณภาพการศึกษา · ลำพูน เขต 2</div>
+    <ul class="menu">
+      <li><a data-go="home" onclick="show('home',this)">ภาพรวม</a></li>
+      <li><a data-go="calendar" onclick="show('calendar',this)">ปฏิทิน</a></li>
+      <li><a data-go="schools" onclick="show('schools',this)">โรงเรียน</a></li>
+      <li><a data-go="internal" onclick="show('internal',this)">ผลประเมินภายใน</a></li>
+      <li><a data-go="external" onclick="show('external',this)">ผลประเมินภายนอก</a></li>
+      <li><a data-go="achievement" onclick="show('achievement',this)">ผลผู้เรียน</a></li>
+      <li><a data-go="personnel" onclick="show('personnel',this)">บุคลากร</a></li>
+      <li><a data-go="docs" onclick="show('docs',this)">เอกสาร</a></li>
+      <li><a data-go="feedback" onclick="show('feedback',this)">ข้อเสนอแนะ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="alertbar" id="alertbar">
+  <div class="wrap">
+    <span>⚠</span>
+    <span id="alertbar-txt"></span>
+    <span class="lk" onclick="goAlertBar()">ดูรายการ</span>
+    <button class="x" onclick="dismissAlert()" aria-label="ปิดแถบเตือน">×</button>
+  </div>
+</div>
+
+<!-- ============ HOME ============ -->
+<div class="view active" id="view-home">
+  <header class="hero wrap">
+    <img src="logo-lp2.png" alt="โลโก้ สพป.ลำพูน เขต 2" class="hero-logo">
+    <div class="eyebrow">สำนักงานเขตพื้นที่การศึกษาประถมศึกษาลำพูน เขต 2</div>
+    <h1>รวมงานประกันไว้ในที่เดียว<br>เพื่อแบ่งเบาภาระของโรงเรียน</h1>
+    <p>แพลตฟอร์มกลางที่ให้โรงเรียนกรอกข้อมูลครั้งเดียวแล้วใช้ได้หลายงาน เปิดให้สาธารณะติดตามผลและดาวน์โหลดเอกสารได้เอง ลดงานเอกสารที่ซ้ำซ้อน</p>
+    <div class="cta">
+      <a class="btn btn-primary" onclick="show('schools',null)">ดูข้อมูลโรงเรียน</a>
+      <a class="btn btn-ghost" onclick="show('docs',null)">ไปที่ศูนย์เอกสาร →</a>
+    </div>
+    <div class="demo-tag">ตัวอย่างหน้าเว็บ · ข้อมูลทั้งหมดเป็นข้อมูลจำลองเพื่อสาธิต</div>
+  </header>
+
+  <section class="purpose wrap">
+    <div class="purpose-grid stagger">
+      <div class="pcard reveal">
+        <div class="pi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/></svg></div>
+        <h4>กรอกครั้งเดียว ใช้ได้หลายงาน</h4>
+        <p>ข้อมูลโรงเรียนชุดเดียว เชื่อมโยงไปทุกงานประกันคุณภาพ ไม่ต้องส่งซ้ำ</p>
+      </div>
+      <div class="pcard reveal">
+        <div class="pi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h4>ค้นหาเอกสารได้เอง</h4>
+        <p>คู่มือ แบบฟอร์ม ประกาศ ดาวน์โหลดได้ตลอด 24 ชม. ไม่ต้องรอประสานงาน</p>
+      </div>
+      <div class="pcard reveal">
+        <div class="pi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-5"/></svg></div>
+        <h4>เห็นภาพรวมแบบเรียลไทม์</h4>
+        <p>สถานะงานของแต่ละโรงเรียนอัปเดตอัตโนมัติ ติดตามง่าย โปร่งใส</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap tasks-sec" id="home-tasks">
+    <div class="sec-head reveal">
+      <h2>งานที่ต้องส่งเขต</h2>
+      <p>เรียงตามวันที่ใกล้ครบกำหนดที่สุด — ตรวจสอบก่อนว่าโรงเรียนของท่านส่งครบหรือยัง</p>
+      <div class="task-updated" id="task-updated"></div>
+      <div class="demo-tag reveal" id="task-demo-tag" style="display:none;">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ประกาศจริง</div>
+    </div>
+    <div class="task-sum stagger" id="task-sum"></div>
+    <div class="task-bar">
+      <select id="task-group" class="yr-select" onchange="renderHomeTasks()" aria-label="กรองตามกลุ่มงาน"></select>
+      <label class="task-check"><input type="checkbox" id="task-hidedone" onchange="renderHomeTasks()"> ซ่อนงานที่ติ๊กว่าส่งแล้ว</label>
+    </div>
+    <div class="task-grid stagger" id="task-grid"></div>
+    <div class="task-more"><a class="btn btn-ghost" onclick="show('deadlines',null)">ดูทั้งหมด <span id="task-total"></span> รายการ →</a></div>
+    <div class="staff-band reveal">
+      <div class="sb-txt">
+        <h4>สำหรับเจ้าหน้าที่ สพป.ลำพูน เขต 2</h4>
+        <p>มีงานที่ต้องแจ้งให้โรงเรียนส่ง? เข้าสู่ระบบด้วยรหัสเจ้าหน้าที่เพื่อโพสต์ประกาศได้ทันที</p>
+      </div>
+      <a class="btn btn-primary" onclick="show('staff',null)">เข้าสู่ระบบเจ้าหน้าที่</a>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>ภาพรวมทั้งเขตพื้นที่</h2><p>สรุปสถานะการดำเนินงานประกันคุณภาพการศึกษา ปีการศึกษา 2568</p></div>
+      <div class="demo-tag reveal" id="home-demo-tag" style="display:none;">ข้อมูลบางส่วนยังเป็นตัวอย่างเพื่อสาธิต · รอผลประเมินจริงครบ</div>
+      <div class="metrics stagger" style="margin-bottom:46px;">
+        <div class="metric reveal"><div class="num" id="home-m1">–</div><div class="lab">โรงเรียนในสังกัด</div></div>
+        <div class="metric reveal"><div class="num" id="home-m2">–<span>%</span></div><div class="lab">ส่ง SAR แล้ว</div></div>
+        <div class="metric reveal"><div class="num" id="home-m3">–<span>%</span></div><div class="lab">คุณภาพระดับดีขึ้นไป</div></div>
+        <div class="metric reveal"><div class="num" id="home-m4">–</div><div class="lab">อำเภอที่ดูแล</div></div>
+      </div>
+      <div class="dash stagger">
+        <div class="card reveal">
+          <h3>โรงเรียนจำแนกตามระดับคุณภาพ</h3>
+          <div class="sub">ผลสรุปภาพรวมการประเมินคุณภาพภายในสถานศึกษา</div>
+          <div class="chart-box"><canvas id="qc" role="img" aria-label="แผนภูมิแท่งจำนวนโรงเรียนจำแนกตามระดับคุณภาพ"></canvas></div>
+        </div>
+        <div class="card reveal">
+          <h3>สัดส่วนระดับคุณภาพ</h3>
+          <div class="sub">คิดเป็นร้อยละของโรงเรียนที่ประเมินแล้ว</div>
+          <div class="legend-row" id="home-quality-legend"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap home-last">
+    <div class="sec-head reveal"><h2>บริการของระบบ</h2><p>เลือกดูข้อมูลและเอกสารในแต่ละด้าน</p></div>
+    <div class="feat stagger">
+      <div class="fcard reveal" onclick="show('schools',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 18 0"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></div><h4>ข้อมูลรายโรงเรียน</h4><p>ดูสถานะการประกันคุณภาพและผลการประเมินภายในของแต่ละโรงเรียน</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('external',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h4>ผลการประเมินคุณภาพภายนอก</h4><p>รายงานผลการประเมินภายนอก พร้อมดาวน์โหลดรายงานฉบับเต็ม (PDF)</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('achievement',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg></div><h4>ผลการพัฒนาผู้เรียน</h4><p>ผลสัมฤทธิ์รายวิชา คุณลักษณะอันพึงประสงค์ สมรรถนะสำคัญ และพัฒนาการปฐมวัย</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('personnel',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h4>ข้อมูลบุคลากรและนักเรียน</h4><p>จำนวนผู้บริหาร ครู นักเรียน และบุคลากรอื่นของโรงเรียนในสังกัด</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('standards',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg></div><h4>ประกาศมาตรฐานและเป้าหมาย</h4><p>ประกาศมาตรฐานการศึกษาและค่าเป้าหมายของสถานศึกษา ดูและดาวน์โหลดได้</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('actionplan',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h4>แผนปฏิบัติการประจำปี</h4><p>แผนปฏิบัติการประจำปีของสถานศึกษา เปิดดูและดาวน์โหลดเอกสาร</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('feedback',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>ข้อเสนอแนะ / สอบถาม</h4><p>ช่องทางส่งคำถามหรือข้อเสนอแนะถึงงานประกันคุณภาพได้โดยตรง</p><span class="go">เปิดดู →</span></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ SCHOOLS ============ -->
+<div class="view" id="view-schools">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ข้อมูลโรงเรียน</div>
+    <h2 class="reveal">ข้อมูลรายโรงเรียน</h2>
+    <p class="reveal">ค้นหาและดูสถานะการประกันคุณภาพของแต่ละโรงเรียนในสังกัดได้โดยตรง</p>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="dash stagger" style="margin-bottom:40px;">
+      <div class="card reveal">
+        <h3>สัดส่วนตามขนาดโรงเรียน</h3>
+        <div class="sub">คิดเป็นร้อยละของโรงเรียนทั้งหมดในสังกัด</div>
+        <div class="chart-box"><canvas id="sizeChart" role="img" aria-label="แผนภูมิวงกลมสัดส่วนขนาดโรงเรียน"></canvas></div>
+      </div>
+      <div class="card reveal">
+        <h3>จำนวนโรงเรียนแต่ละเครือข่าย</h3>
+        <div class="sub">จำแนกตามเครือข่ายสถานศึกษา</div>
+        <div class="chart-box" style="height:auto;min-height:280px;"><canvas id="netChart" role="img" aria-label="แผนภูมิแท่งจำนวนโรงเรียนต่อเครือข่าย"></canvas></div>
+      </div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong id="school-count">โรงเรียนในสังกัด</strong><span class="find"><input id="school-search" type="text" placeholder="ค้นหาชื่อโรงเรียน หรืออำเภอ" oninput="filterSchools(this.value)"></span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>อำเภอ</th><th>ขนาด</th><th>ระดับคุณภาพ</th><th>สถานะ SAR</th></tr></thead>
+        <tbody id="school-tbody">
+          <tr><td colspan="5" style="text-align:center;color:var(--ink-soft);">กำลังโหลดข้อมูล...</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ INTERNAL ASSESSMENT ============ -->
+<div class="view" id="view-internal">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ผลการประเมินคุณภาพภายใน</div>
+    <h2 class="reveal">ผลประเมินคุณภาพภายในสถานศึกษา</h2>
+    <p class="reveal">สรุปผลการประเมินคุณภาพภายในของโรงเรียนในสังกัด ตามมาตรฐานการศึกษา แยกระดับปฐมวัยและระดับการศึกษาขั้นพื้นฐาน พร้อมระดับคุณภาพรายมาตรฐานและสรุปภาพรวม</p>
+    <div class="demo-tag reveal" id="internal-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ผลประเมินจริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="metrics stagger" style="margin-bottom:40px;">
+      <div class="metric reveal"><div class="num" id="in-m1">–</div><div class="lab">โรงเรียนที่ประเมินแล้ว</div></div>
+      <div class="metric reveal"><div class="num" id="in-m2">–<span>%</span></div><div class="lab">คุณภาพระดับดีขึ้นไป</div></div>
+      <div class="metric reveal"><div class="num" id="in-m3">–<span>%</span></div><div class="lab">ระดับยอดเยี่ยม</div></div>
+      <div class="metric reveal"><div class="num" id="in-m4">–</div><div class="lab">ปีการศึกษาล่าสุด</div></div>
+    </div>
+    <div class="card reveal" style="margin-bottom:40px;">
+      <h3>โรงเรียนจำแนกตามสรุประดับคุณภาพ</h3>
+      <div class="sub">เปรียบเทียบระดับปฐมวัยและระดับการศึกษาขั้นพื้นฐาน</div>
+      <div class="chart-box"><canvas id="internalChart" role="img" aria-label="แผนภูมิแท่งจำนวนโรงเรียนจำแนกตามสรุประดับคุณภาพภายใน"></canvas></div>
+    </div>
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="internal-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="filterInternal(this.value)">
+      </span>
+      <label class="yr-pick">รายงาน SAR ปีการศึกษา
+        <select id="sar-year" class="yr-select">
+          <option value="2569">2569</option>
+          <option value="2568">2568</option>
+          <option value="2567">2567</option>
+        </select>
+      </label>
+    </div>
+    <div class="tbl-wrap reveal" style="margin-bottom:36px;">
+      <div class="tbl-top"><strong>ระดับปฐมวัย</strong><span class="find">มาตรฐานที่ 1–3 และสรุปภาพรวม</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>มฐ.1 คุณภาพของเด็ก</th><th>มฐ.2 บริหารและจัดการ</th><th>มฐ.3 จัดประสบการณ์</th><th>สรุปภาพรวม</th><th>รายงาน SAR</th></tr></thead>
+        <tbody id="internal-early"></tbody>
+      </table></div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>ระดับการศึกษาขั้นพื้นฐาน</strong><span class="find">มาตรฐานที่ 1–3 และสรุปภาพรวม</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>มฐ.1 คุณภาพผู้เรียน</th><th>มฐ.2 บริหารและจัดการ</th><th>มฐ.3 จัดการเรียนการสอน</th><th>สรุปภาพรวม</th><th>รายงาน SAR</th></tr></thead>
+        <tbody id="internal-basic"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ EXTERNAL ASSESSMENT ============ -->
+<div class="view" id="view-external">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ผลการประเมินคุณภาพภายนอก</div>
+    <h2 class="reveal">รายงานผลการประเมินคุณภาพภายนอก</h2>
+    <p class="reveal">สรุปผลการประเมินคุณภาพภายนอก (สมศ.) ของโรงเรียนในสังกัด เปิดดูรายละเอียดและดาวน์โหลดรายงานฉบับเต็มเป็นไฟล์ PDF ได้รายโรงเรียน</p>
+    <div class="demo-tag reveal" id="external-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ผลประเมินจริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="metrics stagger" style="margin-bottom:40px;">
+      <div class="metric reveal"><div class="num" id="ex-m1">–</div><div class="lab">โรงเรียนที่ประเมินแล้ว</div></div>
+      <div class="metric reveal"><div class="num" id="ex-m2">–<span>%</span></div><div class="lab">ผลระดับดีขึ้นไป</div></div>
+      <div class="metric reveal"><div class="num" id="ex-m3">–</div><div class="lab">รอบ/ปีที่ประเมินล่าสุด</div></div>
+      <div class="metric reveal"><div class="num" id="ex-m4">–</div><div class="lab">รายงาน PDF พร้อมดาวน์โหลด</div></div>
+    </div>
+    <div class="card reveal" style="margin-bottom:40px;">
+      <h3>โรงเรียนจำแนกตามผลการประเมินภายนอก</h3>
+      <div class="sub">สัดส่วนระดับคุณภาพจากการประเมินรอบล่าสุด</div>
+      <div class="chart-box"><canvas id="externalChart" role="img" aria-label="แผนภูมิจำนวนโรงเรียนจำแนกตามผลการประเมินภายนอก"></canvas></div>
+    </div>
+    <div class="reveal" style="margin-bottom:22px;">
+      <span class="find" style="display:flex;align-items:center;gap:8px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="external-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="filterExternal(this.value)">
+      </span>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>รายงานผลการประเมินภายนอก รายโรงเรียน</strong><span class="find">มฐ.สมศ. รอบล่าสุด</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>รอบการประเมิน</th><th>ปี</th><th>ผลการประเมิน</th><th>รายงานฉบับเต็ม</th></tr></thead>
+        <tbody id="external-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ ACHIEVEMENT / ผลการพัฒนาผู้เรียน ============ -->
+<div class="view" id="view-achievement">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ผลการพัฒนาผู้เรียน · ตามหลักสูตรแกนกลางฯ พ.ศ. 2551</div>
+    <h2 class="reveal">ผลการพัฒนาผู้เรียนทุกระดับชั้น</h2>
+    <p class="reveal">สรุปผลการพัฒนาผู้เรียนของโรงเรียนในสังกัด ทั้งผลสัมฤทธิ์ทางการเรียนรายวิชา คุณลักษณะอันพึงประสงค์ สมรรถนะสำคัญของผู้เรียน และพัฒนาการของเด็กปฐมวัย จำแนกตามระดับชั้นและรายโรงเรียน</p>
+    <div class="demo-tag reveal" id="ach-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ผลการเรียนจริง</div>
+  </div>
+  <section style="padding-top:30px;"><div class="wrap">
+    <!-- แท็บย่อย 4 ด้าน -->
+    <div class="subtabs reveal">
+      <button class="subtab on" type="button">ผลสัมฤทธิ์ทางการเรียน</button>
+      <button class="subtab" type="button" disabled>คุณลักษณะอันพึงประสงค์ <span class="soon">เร็ว ๆ นี้</span></button>
+      <button class="subtab" type="button" disabled>สมรรถนะสำคัญ <span class="soon">เร็ว ๆ นี้</span></button>
+      <button class="subtab" type="button" disabled>พัฒนาการปฐมวัย <span class="soon">เร็ว ๆ นี้</span></button>
+    </div>
+
+    <!-- ตัวกรอง -->
+    <div class="filters reveal">
+      <label class="yr-pick">ปีการศึกษา
+        <select id="ach-year" class="yr-select" onchange="renderAchievement()"></select>
+      </label>
+      <label class="yr-pick">ระดับชั้น
+        <select id="ach-grade" class="yr-select" onchange="renderAchievement()"></select>
+      </label>
+      <label class="yr-pick">มุมมอง
+        <select id="ach-school" class="yr-select" onchange="renderAchievement()"></select>
+      </label>
+    </div>
+
+    <!-- การ์ดสรุป -->
+    <div class="metrics stagger" style="margin-bottom:40px;">
+      <div class="metric reveal"><div class="num" id="ach-m1">–</div><div class="lab">โรงเรียนที่รายงานผล</div></div>
+      <div class="metric reveal"><div class="num" id="ach-m2">–<span>%</span></div><div class="lab">ระดับดีขึ้นไป (ระดับ 3–5)</div></div>
+      <div class="metric reveal"><div class="num" id="ach-m3">–<span>%</span></div><div class="lab">ระดับดีเยี่ยม (ระดับ 4–5)</div></div>
+      <div class="metric reveal"><div class="num" id="ach-m4">–</div><div class="lab">จำนวนผลการเรียนที่ประเมิน</div></div>
+    </div>
+
+    <!-- กราฟแท่งซ้อนรายวิชา -->
+    <div class="card reveal" style="margin-bottom:40px;">
+      <h3 id="ach-chart-title">สัดส่วนระดับผลการเรียน รายวิชา</h3>
+      <div class="sub" id="ach-chart-sub">ภาพรวมระดับเขต · แบ่งสัดส่วนตามระดับผลการเรียน (ร้อยละ)</div>
+      <div class="chart-box" style="height:360px;"><canvas id="achChart" role="img" aria-label="แผนภูมิแท่งสัดส่วนระดับผลการเรียนรายวิชา"></canvas></div>
+      <div class="lvl-legend" id="ach-legend"></div>
+    </div>
+
+    <!-- ตารางรายโรงเรียน -->
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="ach-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="renderAchTable()">
+      </span>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>ร้อยละผู้เรียนที่ได้ระดับดี (3 ขึ้นไป) รายวิชา</strong><span class="find">คลิกชื่อโรงเรียนเพื่อดูกราฟเฉพาะโรงเรียนนั้น</span></div>
+      <div class="tbl-scroll"><table id="ach-table">
+        <thead id="ach-thead"></thead>
+        <tbody id="ach-body"></tbody>
+      </table></div>
+      <p class="ach-note" style="padding:12px 24px;">หมายเหตุ: ตัวเลขคือร้อยละของผู้เรียนที่มีผลการเรียนระดับ 3 ขึ้นไปในแต่ละรายวิชา · “–” หมายถึงยังไม่มีข้อมูลรายงาน</p>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ PERSONNEL ============ -->
+<div class="view" id="view-personnel">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ข้อมูลบุคลากรและนักเรียน</div>
+    <h2 class="reveal">จำนวนบุคลากรและนักเรียน</h2>
+    <p class="reveal">ข้อมูลจำนวนผู้บริหาร ครู นักเรียน และบุคลากรตำแหน่งอื่นของโรงเรียนในสังกัด ทั้งภาพรวมและรายโรงเรียน</p>
+    <div class="demo-tag reveal" id="personnel-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ข้อมูลจริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="metrics stagger" style="margin-bottom:54px;">
+      <div class="metric reveal"><div class="m-ic ic-admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="num" id="pn-admin">–</div><div class="lab">ผู้บริหาร (ผอ./รอง)</div></div>
+      <div class="metric reveal"><div class="m-ic ic-teacher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div class="num" id="pn-teacher">–</div><div class="lab">ครูผู้สอน</div></div>
+      <div class="metric reveal"><div class="m-ic ic-student"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="2.4"/><path d="M21 21v-1.5a3 3 0 0 0-2.6-2.97"/></svg></div><div class="num" id="pn-student">–</div><div class="lab">นักเรียน</div></div>
+      <div class="metric reveal"><div class="m-ic ic-other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></div><div class="num" id="pn-other">–</div><div class="lab">บุคลากรอื่น</div></div>
+    </div>
+    <div class="reveal" style="margin-bottom:20px;">
+      <h3 style="font-size:21px;font-weight:600;letter-spacing:-0.02em;">3 อันดับโรงเรียนตามจำนวนนักเรียน</h3>
+      <div class="sub" style="color:var(--ink-soft);font-size:14px;margin-top:5px;">คัดจากจำนวนนักเรียนมากที่สุดและน้อยที่สุด พร้อมแสดงข้อมูลบุคลากรของแต่ละโรงเรียน</div>
+    </div>
+    <div class="reveal" style="margin-bottom:40px;">
+      <div class="rank-head rank-top"><span class="tag">นักเรียนมากที่สุด</span> 3 อันดับแรก</div>
+      <div class="rank-grid" id="rank-top"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:52px;">
+      <div class="rank-head rank-bottom"><span class="tag">นักเรียนน้อยที่สุด</span> 3 อันดับ</div>
+      <div class="rank-grid" id="rank-bottom"></div>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>จำนวนบุคลากรรายโรงเรียน</strong>
+        <span class="find" style="display:flex;align-items:center;gap:8px;max-width:380px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="personnel-search" type="text" placeholder="ค้นหาชื่อโรงเรียน หรืออำเภอ" oninput="filterPersonnel(this.value)">
+        </span>
+      </div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>อำเภอ</th><th class="numr">ผู้บริหาร</th><th class="numr">ครู</th><th class="numr">นักเรียน</th><th class="numr">บุคลากรอื่น</th></tr></thead>
+        <tbody id="personnel-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ DOCS HUB ============ -->
+<div class="view" id="view-docs">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ศูนย์เอกสาร</div>
+    <h2 class="reveal">เอกสารและดาวน์โหลด</h2>
+    <p class="reveal">รวมเอกสารงานประกันคุณภาพไว้ที่เดียว เลือกหมวดที่ต้องการเพื่อเปิดดูและดาวน์โหลด</p>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="feat stagger">
+      <div class="fcard reveal" onclick="show('standards',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><h4>ประกาศมาตรฐานและเป้าหมาย</h4><p>ประกาศมาตรฐานการศึกษาและค่าเป้าหมายของสถานศึกษา</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('actionplan',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h4>แผนปฏิบัติการประจำปี</h4><p>แผนปฏิบัติการประจำปีของสถานศึกษาในสังกัด</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('sardocs',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div><h4>รายงานการประเมินตนเอง (SAR)</h4><p>รายงาน SAR รายโรงเรียน เลือกปีการศึกษาและดาวน์โหลดเป็นไฟล์ PDF</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('external',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h4>รายงานผลการประเมินคุณภาพภายนอก</h4><p>รายงานผลการประเมินภายนอก (สมศ.) รายโรงเรียน พร้อมดาวน์โหลดฉบับเต็ม (PDF)</p><span class="go">เปิดดู →</span></div>
+      <div class="fcard reveal" onclick="show('guides',null)"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg></div><h4>คู่มือ แบบฟอร์ม และระเบียบ</h4><p>คู่มือประกันคุณภาพ แบบฟอร์ม SAR เครื่องมือนิเทศ และกฎหมายที่เกี่ยวข้อง</p><span class="go">เปิดดู →</span></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ SAR DOCS ============ -->
+<div class="view" id="view-sardocs">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('docs',null)">← กลับศูนย์เอกสาร</span>
+    <div class="eyebrow reveal">รายงานการประเมินตนเอง (SAR)</div>
+    <h2 class="reveal">รายงานการประเมินตนเองของสถานศึกษา</h2>
+    <p class="reveal">รวมรายงานการประเมินตนเอง (Self-Assessment Report) ของโรงเรียนในสังกัด เลือกปีการศึกษาและดาวน์โหลดเป็นไฟล์ PDF ได้รายโรงเรียน</p>
+    <div class="demo-tag reveal" id="sardocs-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ไฟล์จริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="sardocs-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="renderSarDocs()">
+      </span>
+      <label class="yr-pick">ปีการศึกษา
+        <select id="sardocs-year" class="yr-select" onchange="renderSarDocs()">
+          <option value="2569">2569</option>
+          <option value="2568">2568</option>
+          <option value="2567" selected>2567</option>
+        </select>
+      </label>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>รายงาน SAR รายโรงเรียน</strong><span class="find">ตามปีการศึกษาที่เลือก</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>ปีการศึกษา</th><th>สถานะไฟล์</th><th>ดาวน์โหลด</th></tr></thead>
+        <tbody id="sardocs-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ STANDARDS & GOALS ============ -->
+<div class="view" id="view-standards">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('docs',null)">← กลับศูนย์เอกสาร</span>
+    <div class="eyebrow reveal">ประกาศมาตรฐานและเป้าหมาย</div>
+    <h2 class="reveal">ประกาศมาตรฐานและค่าเป้าหมายการจัดการศึกษา</h2>
+    <p class="reveal">ประกาศมาตรฐานการศึกษาและค่าเป้าหมายของสถานศึกษาแต่ละแห่ง เปิดดูและดาวน์โหลดเป็นไฟล์ PDF ได้</p>
+    <div class="demo-tag reveal" id="standards-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ไฟล์จริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="standards-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="renderStandardsDocs()">
+      </span>
+      <label class="yr-pick">ปีการศึกษา
+        <select id="standards-year" class="yr-select" onchange="renderStandardsDocs()">
+          <option value="2569">2569</option>
+          <option value="2568" selected>2568</option>
+          <option value="2567">2567</option>
+        </select>
+      </label>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>ประกาศมาตรฐานและเป้าหมาย รายโรงเรียน</strong><span class="find">ตามปีการศึกษาที่เลือก</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>ปีการศึกษา</th><th>ระดับที่ประกาศ</th><th>เอกสาร</th></tr></thead>
+        <tbody id="standards-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ ACTION PLAN ============ -->
+<div class="view" id="view-actionplan">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('docs',null)">← กลับศูนย์เอกสาร</span>
+    <div class="eyebrow reveal">แผนปฏิบัติการประจำปี</div>
+    <h2 class="reveal">แผนปฏิบัติการประจำปีของสถานศึกษา</h2>
+    <p class="reveal">เปิดดูและดาวน์โหลดแผนปฏิบัติการประจำปีของโรงเรียนในสังกัด แยกตามปีการศึกษา</p>
+    <div class="demo-tag reveal" id="actionplan-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ไฟล์จริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="actionplan-search" type="text" placeholder="ค้นหาชื่อโรงเรียน" oninput="renderActionplanDocs()">
+      </span>
+      <label class="yr-pick">ปีการศึกษา
+        <select id="actionplan-year" class="yr-select" onchange="renderActionplanDocs()">
+          <option value="2569">2569</option>
+          <option value="2568" selected>2568</option>
+          <option value="2567">2567</option>
+        </select>
+      </label>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>แผนปฏิบัติการประจำปี รายโรงเรียน</strong><span class="find">ตามปีการศึกษาที่เลือก</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อโรงเรียน</th><th>ปีการศึกษา</th><th>สถานะ</th><th>เอกสาร</th></tr></thead>
+        <tbody id="actionplan-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ คู่มือ แบบฟอร์ม และระเบียบ ============ -->
+<div class="view" id="view-guides">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('docs',null)">← กลับศูนย์เอกสาร</span>
+    <div class="eyebrow reveal">คู่มือ แบบฟอร์ม และระเบียบ</div>
+    <h2 class="reveal">คู่มือ แบบฟอร์ม และระเบียบที่เกี่ยวข้อง</h2>
+    <p class="reveal">คู่มือประกันคุณภาพ แบบฟอร์ม SAR เครื่องมือนิเทศ และกฎหมายที่เกี่ยวข้อง เปิดดูและดาวน์โหลดได้</p>
+    <div class="demo-tag reveal" id="guides-demo-tag">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่ไฟล์จริง</div>
+  </div>
+  <section style="padding-top:36px;"><div class="wrap">
+    <div class="reveal" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <span class="find" style="flex:1;min-width:260px;max-width:440px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="guides-search" type="text" placeholder="ค้นหาชื่อเอกสาร" oninput="renderGuides()">
+      </span>
+      <select id="guides-cat" class="yr-select" onchange="renderGuides()" aria-label="กรองตามหมวด"></select>
+    </div>
+    <div class="tbl-wrap reveal">
+      <div class="tbl-top"><strong>รายการเอกสาร</strong><span class="find">แยกตามหมวด</span></div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>ชื่อเอกสาร</th><th>หมวด</th><th>เอกสาร</th></tr></thead>
+        <tbody id="guides-body"></tbody>
+      </table></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ FEEDBACK ============ -->
+<div class="view" id="view-feedback">
+  <div class="wrap phero stagger" style="text-align:center;">
+    <div class="eyebrow reveal">ข้อเสนอแนะ / สอบถาม</div>
+    <h2 class="reveal" style="margin-left:auto;margin-right:auto;">ส่งคำถามหรือข้อเสนอแนะถึงเรา</h2>
+    <p class="reveal" style="margin-left:auto;margin-right:auto;">มีคำถามเกี่ยวกับงานประกันคุณภาพ หรืออยากเสนอแนะเพื่อให้ระบบช่วยงานโรงเรียนได้ดีขึ้น ส่งถึงทีมงานได้โดยตรงที่นี่</p>
+  </div>
+  <section style="padding-top:30px;"><div class="wrap">
+    <div class="form-card reveal">
+      <div class="ok-msg" id="ok">ขอบคุณครับ ระบบได้รับข้อความของท่านแล้ว ทีมงานจะติดต่อกลับโดยเร็ว (ตัวอย่างเพื่อสาธิต)</div>
+      <div class="field"><label>ชื่อ–สกุล / โรงเรียน</label><input id="f-name" type="text" placeholder="เช่น ครูสมชาย · โรงเรียนบ้านนาทราย"></div>
+      <div class="field"><label>ประเภท</label><select id="f-type"><option>คำถาม</option><option>ข้อเสนอแนะ</option><option>แจ้งปัญหาการใช้งาน</option></select></div>
+      <div class="field"><label>อีเมลสำหรับติดต่อกลับ</label><input id="f-email" type="email" placeholder="name@example.com"></div>
+      <div class="field"><label>ข้อความ</label><textarea id="f-msg" placeholder="พิมพ์คำถามหรือข้อเสนอแนะของท่านที่นี่..."></textarea></div>
+      <button class="btn btn-primary" id="fb-submit-btn" style="width:100%;justify-content:center;" onclick="sendFb()">ส่งข้อความ</button>
+      <p class="demo-tag" id="feedback-demo-tag" style="display:table;margin:16px auto 0;">แบบฟอร์มนี้เป็นตัวอย่างเพื่อสาธิต ยังไม่ได้เชื่อมต่อระบบส่งจริง</p>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ ปฏิทินส่งงาน ============ -->
+<div class="view" id="view-calendar">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">ปฏิทินเขตพื้นที่</div>
+    <h2 class="reveal">ปฏิทินเขตพื้นที่</h2>
+    <p class="reveal">รวมกิจกรรมและกำหนดส่งงานของเขตไว้ที่เดียว เพื่อให้โรงเรียนวางแผนล่วงหน้าได้</p>
+  </div>
+  <section class="wrap" style="padding-bottom:70px;">
+    <div class="dl-tabs reveal">
+      <button class="subtab on" id="caltab-events" onclick="setCalTab('events')">กิจกรรมเขต</button>
+      <button class="subtab" id="caltab-tasks" onclick="setCalTab('tasks')">งานที่ต้องส่ง</button>
+    </div>
+
+    <!-- ===== แท็บ 1 : กิจกรรมเขต ===== -->
+    <div id="calpane-events">
+      <div class="cal-nav reveal">
+        <button class="cal-arrow" onclick="calMove(-1)" aria-label="เดือนก่อนหน้า">‹</button>
+        <div class="cal-month" id="cal-month-label">—</div>
+        <button class="cal-arrow" onclick="calMove(1)" aria-label="เดือนถัดไป">›</button>
+        <button class="lnk" onclick="calToday()">วันนี้</button>
+      </div>
+      <div class="demo-tag reveal" id="ev-demo-tag" style="display:none;">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่กิจกรรมจริง</div>
+      <div class="dl-filters reveal">
+        <div class="viewmode-toggle" id="ev-viewmode">
+          <button class="vm-btn" id="vm-month" onclick="setEvView('month')">ตารางเดือน</button>
+          <button class="vm-btn on" id="vm-list" onclick="setEvView('list')">รายการ</button>
+        </div>
+        <select id="ev-type" class="yr-select" onchange="renderEvents()" aria-label="กรองตามประเภท"></select>
+        <select id="ev-group" class="yr-select" onchange="renderEvents()" aria-label="กรองตามกลุ่มงาน"></select>
+        <label class="task-check"><input type="checkbox" id="ev-showdue" checked onchange="renderEvents()"> แสดงกำหนดส่งงานด้วย</label>
+      </div>
+      <div class="ev-legend reveal" id="ev-legend"></div>
+      <div id="ev-body"></div>
+      <div id="ev-month" style="display:none;">
+        <div class="cal-grid-head" id="cal-grid-head"></div>
+        <div id="cal-weeks"></div>
+        <div class="cal-daylist" id="cal-daylist"></div>
+      </div>
+      <div class="task-more">
+        <button class="btn-dl" onclick="downloadMonthIcs()">ดาวน์โหลดกิจกรรมเดือนนี้ (.ics)</button>
+        <button class="btn-dl" onclick="openIcsSubscribe()">สมัครรับปฏิทิน</button>
+        <button class="btn-dl" onclick="window.print()">พิมพ์ตารางเดือนนี้</button>
+      </div>
+    </div>
+
+    <!-- ===== แท็บ 2 : งานที่ต้องส่ง (ของเดิม) ===== -->
+    <div id="calpane-tasks" style="display:none;">
+    <div class="dl-tabs reveal">
+      <button class="subtab on" id="dltab-open" onclick="setDlTab('open')">กำลังเปิดรับ</button>
+      <button class="subtab" id="dltab-closed" onclick="setDlTab('closed')">งานที่ปิดแล้ว</button>
+    </div>
+    <div class="dl-filters reveal">
+      <select id="dl-group" class="yr-select" onchange="renderDeadlines()" aria-label="กรองตามกลุ่มงาน"></select>
+      <select id="dl-range" class="yr-select" onchange="renderDeadlines()" aria-label="กรองตามช่วงเวลา">
+        <option value="all">ทุกช่วงเวลา</option>
+        <option value="over">ค้างส่ง (เลยกำหนดแล้ว)</option>
+        <option value="week">ครบกำหนดใน 7 วัน</option>
+        <option value="month">ครบกำหนดใน 30 วัน</option>
+      </select>
+      <select id="dl-view" class="yr-select" onchange="renderDeadlines()" aria-label="รูปแบบการแสดงผล">
+        <option value="card">แบบการ์ด</option>
+        <option value="table">แบบตาราง</option>
+      </select>
+      <label class="task-check"><input type="checkbox" id="dl-hidedone" onchange="renderDeadlines()"> ซ่อนงานที่ติ๊กว่าส่งแล้ว</label>
+    </div>
+    <div id="dl-body"></div>
+    <div class="task-more">
+      <button class="btn-dl" onclick="downloadAllIcs()">ดาวน์โหลดปฏิทินทั้งหมด (.ics)</button>
+    </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ สำหรับเจ้าหน้าที่เขต ============ -->
+<div class="view" id="view-staff">
+  <div class="wrap phero stagger">
+    <span class="back reveal" onclick="show('home',null)">← กลับหน้าแรก</span>
+    <div class="eyebrow reveal">สำหรับเจ้าหน้าที่เขต</div>
+    <h2 class="reveal">โพสต์งานที่ต้องส่ง</h2>
+    <p class="reveal">สำหรับบุคลากร สพป.ลำพูน เขต 2 ที่ได้รับรหัสจากผู้ดูแลระบบ</p>
+  </div>
+  <section class="wrap" style="padding-bottom:80px;">
+    <div class="staff-msg" id="staff-msg"></div>
+
+    <!-- ขั้นที่ 1 : ใส่รหัส -->
+    <div class="staff-card reveal" id="staff-login">
+      <h3>เข้าสู่ระบบด้วยรหัสเจ้าหน้าที่</h3>
+      <p class="hint">ยังไม่มีรหัส? ติดต่อ ศน.ธัชพล สุวรรณพงษ์ โทร. 080-1357474</p>
+      <div class="field">
+        <label for="staff-code">รหัสเจ้าหน้าที่</label>
+        <input id="staff-code" type="password" placeholder="เช่น NT-4821" autocomplete="off" onkeydown="if(event.key==='Enter')staffLogin()">
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="staffLogin()">เข้าสู่ระบบ</button>
+    </div>
+
+    <!-- ขั้นที่ 2 : แผงงาน -->
+    <div class="staff-panel" id="staff-panel" style="display:none;">
+      <div class="staff-top">
+        <div class="staff-who" id="staff-who"></div>
+        <div class="sp">
+          <button class="lnk" onclick="staffLogout()">ออกจากระบบ</button>
+        </div>
+      </div>
+
+      <div class="admin-warn" id="admin-warn"></div>
+
+      <div class="dl-tabs" style="justify-content:flex-start;margin-bottom:18px;">
+        <button class="subtab on" id="sftab-task" onclick="setStaffTab('task')">งานที่ต้องส่ง</button>
+        <button class="subtab" id="sftab-event" onclick="setStaffTab('event')">กิจกรรมเขต</button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <button class="btn btn-primary" id="sf-new-btn" onclick="staffNew()">+ โพสต์งานใหม่</button>
+        <button class="lnk" id="admin-users-btn" style="display:none;" onclick="toggleUsers()">จัดการรหัสเจ้าหน้าที่</button>
+      </div>
+
+      <!-- ฟอร์มโพสต์ -->
+      <div class="form-card reveal" id="post-form" style="display:none;max-width:100%;margin-bottom:34px;">
+        <h3 style="font-size:18px;font-weight:600;margin-bottom:22px;" id="post-form-title">โพสต์งานใหม่</h3>
+        <input type="hidden" id="pf-id">
+        <div class="field">
+          <label for="pf-title">ชื่องาน *</label>
+          <input id="pf-title" type="text" placeholder="เช่น ส่งรายงาน SAR ปีการศึกษา 2568">
+        </div>
+        <div class="field">
+          <label for="pf-detail">รายละเอียด</label>
+          <textarea id="pf-detail" placeholder="อธิบายสั้น ๆ ว่าต้องส่งอะไร รูปแบบไหน"></textarea>
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="pf-due">กำหนดส่ง *</label>
+            <input id="pf-due" type="date">
+          </div>
+          <div class="field">
+            <label for="pf-prio">ระดับความสำคัญ</label>
+            <select id="pf-prio"><option>ปกติ</option><option>ด่วน</option><option>ด่วนที่สุด</option></select>
+          </div>
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="pf-target">กลุ่มเป้าหมาย</label>
+            <select id="pf-target" onchange="toggleTargetOther()">
+              <option>ทุกโรงเรียน</option>
+              <option>โรงเรียนขยายโอกาส</option>
+              <option>โรงเรียนขนาดเล็ก</option>
+              <option>เฉพาะเครือข่าย</option>
+              <option>อื่น ๆ (ระบุเอง)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pf-channel">ช่องทางส่ง</label>
+            <select id="pf-channel"><option>Google Form</option><option>อีเมล</option><option>ระบบ e-Office</option><option>ส่งเอกสารที่เขต</option><option>อื่น ๆ</option></select>
+          </div>
+        </div>
+        <div class="field" id="pf-target-other-wrap" style="display:none;">
+          <label for="pf-target-other">ระบุกลุ่มเป้าหมาย</label>
+          <input id="pf-target-other" type="text" placeholder="เช่น เครือข่ายเวียงกานต์ หรือ พิมพ์รายชื่อโรงเรียน คั่นด้วยเครื่องหมายจุลภาค">
+        </div>
+        <div class="field">
+          <label for="pf-link">ลิงก์แบบฟอร์มหรือไฟล์ (ถ้ามี)</label>
+          <input id="pf-link" type="url" placeholder="https://...">
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="pf-owner">ผู้รับผิดชอบ</label>
+            <input id="pf-owner" type="text" placeholder="ชื่อ-สกุล">
+          </div>
+          <div class="field">
+            <label for="pf-tel">เบอร์ติดต่อ</label>
+            <input id="pf-tel" type="text" placeholder="053-980351 ต่อ ...">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="submitPost()" id="pf-submit">เผยแพร่</button>
+          <button class="btn btn-ghost" onclick="closePostForm()">ยกเลิก</button>
+        </div>
+      </div>
+
+      <!-- ฟอร์มโพสต์กิจกรรม -->
+      <div class="form-card reveal" id="ev-form" style="display:none;max-width:100%;margin-bottom:34px;">
+        <h3 style="font-size:18px;font-weight:600;margin-bottom:22px;" id="ev-form-title">โพสต์กิจกรรมใหม่</h3>
+        <input type="hidden" id="ef-id">
+        <div class="f2">
+          <div class="field">
+            <label for="ef-title">ชื่อกิจกรรม *</label>
+            <input id="ef-title" type="text" placeholder="เช่น อบรมเชิงปฏิบัติการการจัดทำ SAR">
+          </div>
+          <div class="field">
+            <label for="ef-type">ประเภท</label>
+            <select id="ef-type"></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ef-detail">รายละเอียด</label>
+          <textarea id="ef-detail" placeholder="อธิบายสั้น ๆ ว่ากิจกรรมนี้ทำอะไร ต้องเตรียมอะไรไปบ้าง"></textarea>
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="ef-start">วันที่เริ่ม *</label>
+            <input id="ef-start" type="date" onchange="evSyncEnd()">
+          </div>
+          <div class="field">
+            <label for="ef-end">วันที่สิ้นสุด</label>
+            <input id="ef-end" type="date">
+          </div>
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="ef-tstart">เวลาเริ่ม</label>
+            <input id="ef-tstart" type="time">
+          </div>
+          <div class="field">
+            <label for="ef-tend">เวลาสิ้นสุด</label>
+            <input id="ef-tend" type="time">
+          </div>
+        </div>
+        <div class="field">
+          <label for="ef-place">สถานที่</label>
+          <input id="ef-place" type="text" placeholder="เช่น ห้องประชุมสำนักงานเขต">
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="ef-who">ผู้ที่ต้องเข้าร่วม</label>
+            <select id="ef-who" onchange="evToggleWho()"></select>
+          </div>
+          <div class="field">
+            <label for="ef-target">กลุ่มเป้าหมาย</label>
+            <select id="ef-target" onchange="evToggleTarget()"></select>
+          </div>
+        </div>
+        <div class="field" id="ef-who-other-wrap" style="display:none;">
+          <label for="ef-who-other">ระบุผู้ที่ต้องเข้าร่วม</label>
+          <input id="ef-who-other" type="text" placeholder="เช่น ครูผู้สอนภาษาไทย ป.1-3 โรงเรียนละ 1 คน">
+        </div>
+        <div class="field" id="ef-target-other-wrap" style="display:none;">
+          <label for="ef-target-other">ระบุกลุ่มเป้าหมาย</label>
+          <input id="ef-target-other" type="text" placeholder="เช่น เครือข่ายเวียงกานต์ หรือ พิมพ์รายชื่อโรงเรียน คั่นด้วยจุลภาค">
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="ef-needreg">การลงทะเบียน</label>
+            <select id="ef-needreg" onchange="evToggleReg()">
+              <option>ไม่ต้อง</option>
+              <option>ต้องลงทะเบียน</option>
+            </select>
+          </div>
+          <div class="field" id="ef-regclose-wrap" style="display:none;">
+            <label for="ef-regclose">ปิดรับลงทะเบียน</label>
+            <input id="ef-regclose" type="date">
+          </div>
+        </div>
+        <div class="field" id="ef-reglink-wrap" style="display:none;">
+          <label for="ef-reglink">ลิงก์ลงทะเบียน *</label>
+          <input id="ef-reglink" type="url" placeholder="https://forms.gle/...">
+        </div>
+        <div class="field">
+          <label for="ef-doclink">ลิงก์หนังสือเชิญ / เอกสาร (ถ้ามี)</label>
+          <input id="ef-doclink" type="url" placeholder="https://...">
+        </div>
+        <div class="f2">
+          <div class="field">
+            <label for="ef-owner">ผู้รับผิดชอบ</label>
+            <input id="ef-owner" type="text" placeholder="ชื่อ-สกุล">
+          </div>
+          <div class="field">
+            <label for="ef-tel">เบอร์ติดต่อ</label>
+            <input id="ef-tel" type="text" placeholder="053-980351 ต่อ ...">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="submitEvent()" id="ef-submit">เผยแพร่</button>
+          <button class="btn btn-ghost" onclick="closeEventForm()">ยกเลิก</button>
+        </div>
+      </div>
+
+      <!-- รายการงานของฉัน -->
+      <h3 style="font-size:17px;font-weight:600;margin-bottom:6px;" id="staff-list-title">งานที่ฉันโพสต์</h3>
+      <div id="staff-list"></div>
+      <div id="staff-evlist" style="display:none;"></div>
+
+      <!-- จัดการรหัส (แอดมิน) -->
+      <div id="admin-users" style="display:none;margin-top:40px;">
+        <h3 style="font-size:17px;font-weight:600;margin-bottom:16px;">รหัสเจ้าหน้าที่ทั้งหมด</h3>
+        <div class="form-card" style="max-width:100%;margin-bottom:24px;padding:26px;">
+          <div class="f2">
+            <div class="field"><label for="nu-name">ชื่อ-สกุล</label><input id="nu-name" type="text"></div>
+            <div class="field"><label for="nu-group">กลุ่มงาน</label><select id="nu-group"></select></div>
+          </div>
+          <button class="btn btn-primary" onclick="issueCode()">ออกรหัสใหม่</button>
+        </div>
+        <div id="admin-users-list"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>สำนักงานเขตพื้นที่การศึกษาประถมศึกษาลำพูน เขต 2</strong>
+      กลุ่มนิเทศ ติดตาม และประเมินผลการจัดการศึกษา<br>
+      เลขที่ 165 หมู่ที่ 6 ตำบลบ้านโฮ่ง อำเภอบ้านโฮ่ง จังหวัดลำพูน 51130
+    </div>
+    <div>
+      <strong>ติดต่อสำนักงาน</strong>
+      โทร. 053-980351, 053-980352<br>
+      โทรสาร 053-980354<br>
+      อีเมล admin@lp2.go.th
+    </div>
+    <div>
+      <strong>ผู้ดูแลระบบประกันคุณภาพ</strong>
+      ศน.ธัชพล สุวรรณพงษ์<br>
+      โทร. 080-1357474<br>
+      © 2568 สพป.ลำพูน เขต 2
+    </div>
+  </div>
+</footer>
+
+<!-- ============ กล่องบอกวิธีสมัครรับปฏิทิน (ICS subscribe) ============ -->
+<div class="modal-bg" id="ics-modal" onclick="if(event.target===this) closeIcsSubscribe();">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeIcsSubscribe()" aria-label="ปิด">×</button>
+    <h3>สมัครรับปฏิทินกิจกรรมเขต</h3>
+    <p>คัดลอกลิงก์นี้ แล้วนำไปเพิ่มใน Google Calendar ของท่าน ปฏิทินจะอัปเดตให้อัตโนมัติทุกครั้งที่เขตเพิ่ม/แก้ไขกิจกรรม</p>
+    <div class="modal-url" id="ics-modal-url"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:18px;" onclick="copyIcsUrl()">คัดลอกลิงก์</button>
+    <div class="modal-steps">
+      <strong>วิธีเพิ่มใน Google Calendar (คอมพิวเตอร์)</strong>
+      <ol>
+        <li>เปิด <a href="https://calendar.google.com" target="_blank" rel="noopener">calendar.google.com</a></li>
+        <li>ที่เมนูซ้าย กด <b>เพิ่มปฏิทินอื่น (+)</b> → <b>จาก URL</b></li>
+        <li>วางลิงก์ที่คัดลอกไว้ แล้วกด <b>เพิ่มปฏิทิน</b></li>
+      </ol>
+      <p class="modal-warn">Google จะดึงข้อมูลปฏิทินนี้ทุก <b>12–24 ชั่วโมง</b> ไม่ใช่ทันทีที่เขตประกาศ
+        หากเป็นกิจกรรมด่วน โปรดเช็คที่หน้าเว็บนี้โดยตรงจะแม่นยำกว่า</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -11,29 +11,20 @@
     var t=document.getElementById('view-'+id);
     if(t){ t.classList.add('active'); }
     document.querySelectorAll('.menu a').forEach(function(a){ a.classList.remove('on'); });
-    var nav=document.querySelector('.menu a[data-go="'+id+'"]'); if(nav){ nav.classList.add('on'); }
-    closeMenu();
+    var nav=document.querySelector('.menu a[data-go="'+id+'"]'); if(nav){ nav.classList.add('on'); menuReveal(nav); }
     window.scrollTo({top:0,behavior:'smooth'});
     if(wantTab && typeof setCalTab==='function') setCalTab(wantTab);
     if(t){ requestAnimationFrame(function(){ arm(t); }); }
   }
 
-  /* ---------- เมนูบนจอแคบ (ปุ่ม "เมนู") ---------- */
-  function setMenuOpen(open){
-    var nav=document.querySelector('nav'), btn=document.getElementById('nav-toggle');
-    if(nav) nav.classList.toggle('open', !!open);
-    if(btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  /* ---------- เมนูบนจอแคบ: เลื่อนแถบเมนูให้เห็นหน้าที่เปิดอยู่ (จอกว้างเมนูไม่ล้น จึงไม่มีผล) ---------- */
+  function menuReveal(a){
+    var m=document.getElementById('main-menu');
+    if(!m || !a || m.scrollWidth <= m.clientWidth) return;
+    var mr=m.getBoundingClientRect(), ar=a.getBoundingClientRect();
+    var left=m.scrollLeft + (ar.left-mr.left) - (m.clientWidth-ar.width)/2;
+    try{ m.scrollTo({left:Math.max(0,left),behavior:'smooth'}); }catch(e){ m.scrollLeft=Math.max(0,left); }
   }
-  function toggleMenu(){
-    var nav=document.querySelector('nav');
-    setMenuOpen(!(nav && nav.classList.contains('open')));
-  }
-  function closeMenu(){ setMenuOpen(false); }
-  document.addEventListener('click', function(e){
-    var nav=document.querySelector('nav');
-    if(nav && nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
-  });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
   function dl(){ alert('ตัวอย่างเพื่อสาธิต: ในระบบจริง ปุ่มนี้จะเปิด/ดาวน์โหลดไฟล์ PDF จาก Google Drive'); }
 
   /* ===== Google Sheets data: ข้อมูลโรงเรียน ===== */

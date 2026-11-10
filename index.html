@@ -15,8 +15,12 @@
 
 <nav>
   <div class="wrap nav-in">
-    <div class="brand" onclick="show('home',null)"><img class="dot" src="logo-lp2.png" alt="โลโก้ สพป.ลำพูน เขต 2"> ประกันคุณภาพการศึกษา · ลำพูน เขต 2</div>
-    <ul class="menu">
+    <div class="brand" onclick="show('home',null)"><img class="dot" src="logo-lp2.png" alt="โลโก้ สพป.ลำพูน เขต 2"> <span class="brand-txt">ประกันคุณภาพการศึกษา · ลำพูน เขต 2</span></div>
+    <button class="nav-toggle" id="nav-toggle" type="button" onclick="toggleMenu()" aria-label="เปิดหรือปิดเมนู" aria-expanded="false" aria-controls="main-menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span>เมนู</span>
+    </button>
+    <ul class="menu" id="main-menu">
       <li><a data-go="home" onclick="show('home',this)">ภาพรวม</a></li>
       <li><a data-go="calendar" onclick="show('calendar',this)">ปฏิทิน</a></li>
       <li><a data-go="schools" onclick="show('schools',this)">โรงเรียน</a></li>
@@ -553,16 +557,16 @@
       <div class="demo-tag reveal" id="ev-demo-tag" style="display:none;">ข้อมูลตัวอย่างเพื่อสาธิต · ยังไม่ใช่กิจกรรมจริง</div>
       <div class="dl-filters reveal">
         <div class="viewmode-toggle" id="ev-viewmode">
-          <button class="vm-btn" id="vm-month" onclick="setEvView('month')">ตารางเดือน</button>
-          <button class="vm-btn on" id="vm-list" onclick="setEvView('list')">รายการ</button>
+          <button class="vm-btn on" id="vm-month" onclick="setEvView('month')">ตารางเดือน</button>
+          <button class="vm-btn" id="vm-list" onclick="setEvView('list')">รายการ</button>
         </div>
         <select id="ev-type" class="yr-select" onchange="renderEvents()" aria-label="กรองตามประเภท"></select>
         <select id="ev-group" class="yr-select" onchange="renderEvents()" aria-label="กรองตามกลุ่มงาน"></select>
         <label class="task-check"><input type="checkbox" id="ev-showdue" checked onchange="renderEvents()"> แสดงกำหนดส่งงานด้วย</label>
       </div>
       <div class="ev-legend reveal" id="ev-legend"></div>
-      <div id="ev-body"></div>
-      <div id="ev-month" style="display:none;">
+      <div id="ev-body" style="display:none;"></div>
+      <div id="ev-month">
         <div class="cal-grid-head" id="cal-grid-head"></div>
         <div id="cal-weeks"></div>
         <div class="cal-daylist" id="cal-daylist"></div>

@@ -12,10 +12,28 @@
     if(t){ t.classList.add('active'); }
     document.querySelectorAll('.menu a').forEach(function(a){ a.classList.remove('on'); });
     var nav=document.querySelector('.menu a[data-go="'+id+'"]'); if(nav){ nav.classList.add('on'); }
+    closeMenu();
     window.scrollTo({top:0,behavior:'smooth'});
     if(wantTab && typeof setCalTab==='function') setCalTab(wantTab);
     if(t){ requestAnimationFrame(function(){ arm(t); }); }
   }
+
+  /* ---------- เมนูบนจอแคบ (ปุ่ม "เมนู") ---------- */
+  function setMenuOpen(open){
+    var nav=document.querySelector('nav'), btn=document.getElementById('nav-toggle');
+    if(nav) nav.classList.toggle('open', !!open);
+    if(btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function toggleMenu(){
+    var nav=document.querySelector('nav');
+    setMenuOpen(!(nav && nav.classList.contains('open')));
+  }
+  function closeMenu(){ setMenuOpen(false); }
+  document.addEventListener('click', function(e){
+    var nav=document.querySelector('nav');
+    if(nav && nav.classList.contains('open') && !nav.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
   function dl(){ alert('ตัวอย่างเพื่อสาธิต: ในระบบจริง ปุ่มนี้จะเปิด/ดาวน์โหลดไฟล์ PDF จาก Google Drive'); }
 
   /* ===== Google Sheets data: ข้อมูลโรงเรียน ===== */
@@ -1193,14 +1211,16 @@
   (function(){ var n=new Date(); calY=n.getFullYear(); calM=n.getMonth(); })();
 
   /* ---------- มุมมอง [ตารางเดือน | รายการ] ---------- */
-  var evViewMode = 'list';
+  /* ค่าตั้งต้น = ตารางเดือน ทุกขนาดจอ (รวมโทรศัพท์) — มติเจ้าของ 10 พ.ย. 2569
+     ใช้คีย์ใหม่ lp2-ev-view2 เพื่อไม่ให้ค่า "รายการ" ที่เครื่องเคยจำไว้จากรุ่นเก่ามาทับค่าตั้งต้นใหม่ */
+  var evViewMode = 'month';
   (function(){
-    try{ var saved=localStorage.getItem('lp2-ev-view'); if(saved==='month'||saved==='list') evViewMode=saved; }catch(e){}
+    try{ var saved=localStorage.getItem('lp2-ev-view2'); if(saved==='month'||saved==='list') evViewMode=saved; }catch(e){}
   })();
-  function effectiveEvView(){ return (window.innerWidth < 768) ? 'list' : evViewMode; }   /* จอ < 768px บังคับเป็นรายการเสมอ */
+  function effectiveEvView(){ return evViewMode; }
   function setEvView(mode){
     evViewMode = mode;
-    try{ localStorage.setItem('lp2-ev-view', mode); }catch(e){}
+    try{ localStorage.setItem('lp2-ev-view2', mode); }catch(e){}
     renderEvents();
   }
   function applyEvViewUI(){
@@ -1426,12 +1446,16 @@
       var inner='';
       for(var col=0; col<7; col++){
         var cellIdx=w*7+col, dayNum=cellIdx-offset+1;
-        if(dayNum<1 || dayNum>daysInMonth) continue;
+        /* ช่องนอกเดือน วาดเป็นช่องว่างสีจาง เพื่อให้เส้นตารางครบทุกช่อง */
+        if(dayNum<1 || dayNum>daysInMonth){
+          inner += '<div class="cal-daynum blank c'+(col+1)+'" style="grid-column:'+(col+1)+';"></div>';
+          continue;
+        }
         var iso=ymd(calY,calM,dayNum);
         var dueN=dueCount[iso]||0;
-        var cls='cal-daynum'+(iso===todayIso?' today':'')+(iso===calSelectedDay?' sel':'');
+        var cls='cal-daynum c'+(col+1)+(col>=5?' wkend':'')+(iso===todayIso?' today':'')+(iso===calSelectedDay?' sel':'');
         inner += '<div class="'+cls+'" style="grid-column:'+(col+1)+';" data-iso="'+iso+'" onclick="calPickDay(\''+iso+'\')">'
-          + dayNum + (dueN?'<span class="cal-due-dot" title="มีกำหนดส่งงาน '+dueN+' รายการ"></span>':'')
+          + '<span class="dn">'+dayNum+'</span>' + (dueN?'<span class="cal-due-dot" title="มีกำหนดส่งงาน '+dueN+' รายการ"></span>':'')
           + '</div>';
       }
       placedBars.filter(function(b){ return b.weekIndex===w; }).forEach(function(b){

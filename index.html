@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script>document.documentElement.className += ' reveal-on';</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<link rel="stylesheet" href="style.css?v=20261110b">
+<link rel="stylesheet" href="style.css?v=20261125a">
 </head>
 <body>
 
@@ -73,6 +73,16 @@
   </section>
 
   <section class="wrap tasks-sec" id="home-tasks">
+    <!-- แถบเจ้าหน้าที่ อยู่เหนืองานที่ต้องส่งเขต (มติเจ้าของ 25 พ.ย. 2569) — ข้อความเปลี่ยนตามสถานะเข้าระบบ ดู renderStaffBand() -->
+    <div class="staff-band top reveal" id="staff-band">
+      <div class="sb-txt">
+        <h4 id="sb-title">สำหรับเจ้าหน้าที่ สพป.ลำพูน เขต 2</h4>
+        <p id="sb-desc">มีงานที่ต้องแจ้งให้โรงเรียนส่ง? เข้าสู่ระบบด้วยรหัสเจ้าหน้าที่เพื่อโพสต์ประกาศได้ทันที</p>
+      </div>
+      <div class="sb-act" id="sb-act">
+        <a class="btn btn-primary" onclick="show('staff',null)">เข้าสู่ระบบเจ้าหน้าที่</a>
+      </div>
+    </div>
     <div class="sec-head reveal">
       <h2>งานที่ต้องส่งเขต</h2>
       <p>เรียงตามวันที่ใกล้ครบกำหนดที่สุด — ตรวจสอบก่อนว่าโรงเรียนของท่านส่งครบหรือยัง</p>
@@ -86,13 +96,27 @@
     </div>
     <div class="task-grid stagger" id="task-grid"></div>
     <div class="task-more"><a class="btn btn-ghost" onclick="show('deadlines',null)">ดูทั้งหมด <span id="task-total"></span> รายการ →</a></div>
-    <div class="staff-band reveal">
-      <div class="sb-txt">
-        <h4>สำหรับเจ้าหน้าที่ สพป.ลำพูน เขต 2</h4>
-        <p>มีงานที่ต้องแจ้งให้โรงเรียนส่ง? เข้าสู่ระบบด้วยรหัสเจ้าหน้าที่เพื่อโพสต์ประกาศได้ทันที</p>
-      </div>
-      <a class="btn btn-primary" onclick="show('staff',null)">เข้าสู่ระบบเจ้าหน้าที่</a>
+  </section>
+
+  <!-- ปฏิทินเขตพื้นที่บนหน้าแรก (ใช้ข้อมูลและเดือนเดียวกับหน้าปฏิทิน) -->
+  <section class="wrap home-cal" id="home-cal">
+    <div class="sec-head reveal">
+      <h2>ปฏิทินเขตพื้นที่</h2>
+      <p>กิจกรรมและกำหนดส่งงานของเขตในเดือนนี้ แตะวันที่เพื่อดูรายละเอียด</p>
     </div>
+    <div class="cal-nav reveal">
+      <button class="cal-arrow" onclick="calMove(-1)" aria-label="เดือนก่อนหน้า">‹</button>
+      <div class="cal-month" id="hcal-month-label">—</div>
+      <button class="cal-arrow" onclick="calMove(1)" aria-label="เดือนถัดไป">›</button>
+      <button class="lnk" onclick="calToday()">วันนี้</button>
+    </div>
+    <div class="ev-legend reveal" id="hcal-legend"></div>
+    <div class="reveal">
+      <div class="cal-grid-head" id="hcal-grid-head"></div>
+      <div id="hcal-weeks"></div>
+    </div>
+    <div class="cal-daylist" id="hcal-daylist"></div>
+    <div class="task-more"><a class="btn btn-ghost" onclick="show('calendar',null);setCalTab('events');">ดูปฏิทินเต็ม →</a></div>
   </section>
 
   <section class="soft">
@@ -621,6 +645,7 @@
         <label for="staff-code">รหัสเจ้าหน้าที่</label>
         <input id="staff-code" type="password" placeholder="เช่น NT-4821" autocomplete="off" onkeydown="if(event.key==='Enter')staffLogin()">
       </div>
+      <label class="task-check staff-remember"><input type="checkbox" id="staff-remember" checked> จำการเข้าระบบในเครื่องนี้ (เอาติ๊กออกถ้าใช้เครื่องส่วนกลาง)</label>
       <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="staffLogin()">เข้าสู่ระบบ</button>
     </div>
 
@@ -869,6 +894,6 @@
   </div>
 </div>
 
-<script src="script.js?v=20261110b"></script>
+<script src="script.js?v=20261125a"></script>
 </body>
 </html>

@@ -298,9 +298,20 @@
   .staff-band .sb-txt h4{font-size:17px;font-weight:600;letter-spacing:-0.02em;margin-bottom:4px;}
   .staff-band .sb-txt p{font-size:14px;color:var(--ink-soft);font-weight:300;}
   .staff-band .btn{flex:none;font-size:15px;padding:11px 24px;}
+  .staff-band.top{margin-top:0;margin-bottom:48px;}
+  .staff-band .sb-act{display:flex;align-items:center;gap:18px;flex:none;}
+  .staff-band .sb-act .lnk{white-space:nowrap;}
+  .staff-remember{margin:2px 0 18px;line-height:1.5;align-items:flex-start;}
+  .staff-remember input{margin-top:3px;flex:none;}
+  /* ปฏิทินบนหน้าแรก */
+  .home-cal{padding-top:10px;padding-bottom:90px;}
+  .home-cal .sec-head{margin-bottom:26px;}
   @media(max-width:640px){
     .staff-band{flex-direction:column;align-items:flex-start;gap:16px;padding:24px;}
     .staff-band .btn{width:100%;justify-content:center;}
+    .staff-band .sb-act{width:100%;flex-direction:column;gap:10px;}
+    .staff-band.top{margin-bottom:36px;}
+    .home-cal{padding-bottom:64px;}
   }
 
   /* หน้าปฏิทินส่งงาน — มุมมองตาราง */
@@ -362,7 +373,7 @@
     border:1px solid var(--line);border-radius:14px 14px 0 0;}
   .cal-grid-head>div{padding:9px 0;border-right:1px solid var(--line);}
   .cal-grid-head>div:last-child{border-right:none;}
-  #cal-weeks{border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;overflow:hidden;}
+  #cal-weeks,#hcal-weeks{border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;overflow:hidden;}
   .cal-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
     grid-template-rows:30px 23px 23px 23px 20px;border-bottom:1px solid var(--line);}
   .cal-week:last-child{border-bottom:none;}
@@ -392,7 +403,7 @@
     .cal-nav{gap:8px;}
     .cal-month{font-size:19px;min-width:0;flex:1 1 auto;}
     .cal-grid-head{font-size:11.5px;border-radius:10px 10px 0 0;}
-    #cal-weeks{border-radius:0 0 10px 10px;}
+    #cal-weeks,#hcal-weeks{border-radius:0 0 10px 10px;}
     .cal-week{grid-template-rows:25px 17px 17px 17px 15px;}
     .cal-daynum{font-size:12px;padding:4px 5px 0;}
     .cal-daynum.today .dn{min-width:20px;height:20px;line-height:20px;margin:-1px -2px 0 0;padding:0 3px;}

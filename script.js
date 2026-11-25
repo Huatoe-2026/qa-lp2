@@ -1306,9 +1306,10 @@
       g.innerHTML='<option value="">ทุกกลุ่มงาน</option>'+TASK_GROUPS.map(function(x){
         return '<option value="'+tesc(x)+'">'+tesc(x)+'</option>'; }).join('');
     }
-    var lg=document.getElementById('ev-legend');
-    if(lg) lg.innerHTML=EV_TYPES.map(function(x){
+    var legendHtml=EV_TYPES.map(function(x){
       return '<span><i style="background:'+evColor(x)+'"></i>'+tesc(x)+'</span>'; }).join('');
+    var lg=document.getElementById('ev-legend');  if(lg) lg.innerHTML=legendHtml;
+    var hlg=document.getElementById('hcal-legend'); if(hlg) hlg.innerHTML=legendHtml;
   }
 
   /* ---------- แสดงผล ---------- */
@@ -1325,8 +1326,11 @@
   function renderEvents(){
     var lab=document.getElementById('cal-month-label');
     if(lab) lab.textContent = THMONFULL[calM] + ' ' + (calY+543);
+    var hlab=document.getElementById('hcal-month-label');
+    if(hlab) hlab.textContent = THMONFULL[calM] + ' ' + (calY+543);
     applyEvViewUI();
     if(effectiveEvView()==='month') renderEvMonthGrid(); else renderEvListMode();
+    renderEvMonthGrid('home');   /* หน้าแรกแสดงตารางเดือนเสมอ */
   }
 
   function renderEvListMode(){
@@ -1356,8 +1360,14 @@
   }
 
   /* ---------- มุมมองตารางเดือน ---------- */
-  function renderEvMonthGrid(){
-    var head=document.getElementById('cal-grid-head'), weeksBox=document.getElementById('cal-weeks');
+  /* ตารางเดือนวาดได้สองที่: หน้าปฏิทิน (CAL_PAGE) และหน้าแรก (CAL_HOME) — ใช้เดือนและวันที่เลือกร่วมกัน */
+  function calIds(which){
+    return which==='home' ? {head:'hcal-grid-head', weeks:'hcal-weeks', list:'hcal-daylist'}
+                           : {head:'cal-grid-head',  weeks:'cal-weeks',  list:'cal-daylist'};
+  }
+  function renderEvMonthGrid(which){
+    var ids=calIds(which);
+    var head=document.getElementById(ids.head), weeksBox=document.getElementById(ids.weeks);
     if(!head || !weeksBox) return;
 
     var THWK=['จ.','อ.','พ.','พฤ.','ศ.','ส.','อา.'];
@@ -1469,16 +1479,17 @@
       weeksHtml += '<div class="cal-week">'+inner+'</div>';
     }
     weeksBox.innerHTML = weeksHtml;
-    renderCalDayList(calSelectedDay);
+    renderCalDayList(calSelectedDay, ids.list);
   }
 
   function calPickDay(iso){
     calSelectedDay = iso;
-    renderEvMonthGrid();
+    if(effectiveEvView()==='month') renderEvMonthGrid();
+    renderEvMonthGrid('home');
   }
 
-  function renderCalDayList(iso){
-    var box=document.getElementById('cal-daylist'); if(!box) return;
+  function renderCalDayList(iso, boxId){
+    var box=document.getElementById(boxId||'cal-daylist'); if(!box) return;
     if(!iso){
       box.innerHTML='<div class="task-empty">แตะวันที่ในตารางเพื่อดูรายละเอียดกิจกรรมของวันนั้นครับ</div>';
       return;
@@ -1609,7 +1620,9 @@
     var p=String(v.start).split('-'); calY=parseInt(p[0],10); calM=parseInt(p[1],10)-1;
     show('calendar',null); setCalTab('events');
     setTimeout(function(){
-      var el=document.getElementById('ev-'+id);
+      /* หาเฉพาะในหน้าปฏิทิน — รายการแบบเดียวกันอาจอยู่ในปฏิทินหน้าแรกด้วย */
+      var el=null, cands=document.querySelectorAll('#view-calendar .ev-row');
+      for(var i=0;i<cands.length;i++){ if(cands[i].id==='ev-'+id && cands[i].offsetParent){ el=cands[i]; break; } }
       if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.style.boxShadow='0 0 0 3px var(--accent-soft)'; }
     },400);
     return true;
@@ -1622,7 +1635,45 @@
   function tapi(payload){
     if(!TASKS_API_URL) return Promise.reject(new Error('ระบบยังไม่ได้เชื่อมต่อกับ Google Sheets (ผู้ดูแลยังไม่ได้ใส่ URL ของ Apps Script)'));
     return fetch(TASKS_API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
-      .then(function(r){ return r.json(); });
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        /* รหัสถูกระงับระหว่างที่ยังค้างอยู่ในระบบ → ออกจากระบบในเครื่องนี้ทันที */
+        if(payload.action!=='login' && staffMe && res && res.ok===false && res.error===STAFF_AUTH_ERR){
+          staffLogout();
+          throw new Error('รหัสนี้ถูกระงับหรือไม่ถูกต้องแล้ว ระบบจึงออกจากระบบให้ กรุณาติดต่อผู้ดูแลระบบ');
+        }
+        return res;
+      });
+  }
+  /* ข้อความเดียวกับที่ Apps Script ตอบเมื่อ auth_() ไม่ผ่าน */
+  var STAFF_AUTH_ERR='รหัสไม่ถูกต้อง หรือถูกระงับการใช้งาน';
+  /* จำการเข้าระบบ: ติ๊ก "จำ" → localStorage (อยู่จนกดออก) · ไม่ติ๊ก → sessionStorage (ปิดแท็บแล้วหลุด) — มติเจ้าของ 25 พ.ย. 2569 */
+  var STAFF_KEY='lp2-staff';
+  function staffSave(remember){
+    var v=JSON.stringify(staffMe);
+    try{ localStorage.removeItem(STAFF_KEY); }catch(e){}
+    try{ sessionStorage.removeItem(STAFF_KEY); }catch(e){}
+    try{ (remember?localStorage:sessionStorage).setItem(STAFF_KEY,v); }catch(e){}
+  }
+  function staffLoad(){
+    var v=null;
+    try{ v=localStorage.getItem(STAFF_KEY); }catch(e){}
+    if(!v){ try{ v=sessionStorage.getItem(STAFF_KEY); }catch(e){} }
+    try{ var o=v?JSON.parse(v):null; return (o&&o.code)?o:null; }catch(e){ return null; }
+  }
+  function renderStaffBand(){
+    var t=document.getElementById('sb-title'), d=document.getElementById('sb-desc'), a=document.getElementById('sb-act');
+    if(!t||!d||!a) return;
+    if(staffMe){
+      t.textContent='สวัสดี คุณ'+(staffMe.name||'เจ้าหน้าที่');
+      d.textContent='ท่านอยู่ในระบบเจ้าหน้าที่'+(staffMe.group?' · '+staffMe.group:'')+' โพสต์หรือแก้ไขงานได้ทันที';
+      a.innerHTML='<a class="btn btn-primary" onclick="show(\x27staff\x27,null)">ไปหน้าจัดการงาน</a>'
+        +'<button class="lnk" onclick="staffLogout()">ออกจากระบบ</button>';
+    } else {
+      t.textContent='สำหรับเจ้าหน้าที่ สพป.ลำพูน เขต 2';
+      d.textContent='มีงานที่ต้องแจ้งให้โรงเรียนส่ง? เข้าสู่ระบบด้วยรหัสเจ้าหน้าที่เพื่อโพสต์ประกาศได้ทันที';
+      a.innerHTML='<a class="btn btn-primary" onclick="show(\x27staff\x27,null)">เข้าสู่ระบบเจ้าหน้าที่</a>';
+    }
   }
   function staffMsg(txt, isErr){
     var el=document.getElementById('staff-msg'); if(!el) return;
@@ -1637,13 +1688,18 @@
     tapi({action:'login',code:code}).then(function(res){
       if(res && res.ok){
         staffMe={code:code,name:res.name,group:res.group,role:res.role};
-        try{ sessionStorage.setItem('lp2-staff',JSON.stringify(staffMe)); }catch(e){}
+        var rm=document.getElementById('staff-remember');
+        staffSave(!rm || rm.checked);
+        renderStaffBand();
         showStaffPanel();
       } else staffMsg((res&&res.error)||'รหัสไม่ถูกต้อง หรือถูกระงับการใช้งาน',true);
     }).catch(function(err){ staffMsg(err.message,true); });
   }
   function staffLogout(){
-    staffMe=null; try{ sessionStorage.removeItem('lp2-staff'); }catch(e){}
+    staffMe=null;
+    try{ localStorage.removeItem(STAFF_KEY); }catch(e){}
+    try{ sessionStorage.removeItem(STAFF_KEY); }catch(e){}
+    renderStaffBand();
     document.getElementById('staff-panel').style.display='none';
     document.getElementById('staff-login').style.display='';
     document.getElementById('staff-code').value='';
@@ -1974,10 +2030,8 @@
   }
 
   /* ---------- เริ่มทำงาน ---------- */
-  try{
-    var saved=sessionStorage.getItem('lp2-staff');
-    if(saved){ staffMe=JSON.parse(saved); }
-  }catch(e){}
+  staffMe=staffLoad();
+  renderStaffBand();
   if(staffMe && document.getElementById('staff-panel')) showStaffPanel();
   window.addEventListener('hashchange', function(){
     if(!openHashEvent()) openHashTask();
